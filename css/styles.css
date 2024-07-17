@@ -29,12 +29,17 @@ body {
 
 }
 
-
+.game__clicker-circle {
+    position: relative;
+}
 
 .game__clicker-circle img {
     width: 250px;
     height: 250px;
     border-radius: 50%;
     box-shadow: 0px 0px 16px 0px rgba(138, 143, 254, 0.05);
-
+    transition: transform 0.2s ease;
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+    transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
 }
