@@ -1,7 +1,40 @@
+html,
 body {
-    background-color: #272727;
+    margin: 0;
+    height: 100%;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #313639;
 }
 
-.game {
+.game__header {
     display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game__header img {
+    width: 50px;
+    height: 50px;
+}
+
+.game__score {
+    color: #fff;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 800;
+
+}
+
+
+
+.game__clicker-circle img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 16px 0px rgba(138, 143, 254, 0.05);
+
 }
