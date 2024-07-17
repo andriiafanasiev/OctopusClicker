@@ -34,7 +34,10 @@ body {
     position: relative;
 }
 
+
 .game__clicker-circle img {
+    padding: 20px;
+    background-color: #232628;
     margin-top: 20px;
     width: 250px;
     height: 250px;
@@ -44,4 +47,34 @@ body {
     --tiltX: 0deg;
     --tiltY: 0deg;
     transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
+}
+
+/* Animation +1 */
+
+
+.plus-one {
+    position: absolute;
+    font-family: Inter;
+    text-shadow: 0px 0px 4px rgba(234, 182, 64, 0.25);
+    font-size: 24px;
+    font-weight: 800;
+    background: linear-gradient(180deg, #47cbe8 0%, #2b5cef 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    pointer-events: none;
+    user-select: none;
+    animation: move-up 2s forwards;
+}
+
+@keyframes move-up {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
 }
