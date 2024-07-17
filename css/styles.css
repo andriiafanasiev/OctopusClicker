@@ -1,0 +1,7 @@
+body {
+    background-color: #272727;
+}
+
+.game {
+    display: flex;
+}
