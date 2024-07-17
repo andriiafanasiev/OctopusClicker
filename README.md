@@ -1,2 +1,2 @@
 # OctopusClicker
-Clicker game and it will available on both Telegram and the web.
+Clicker game and it will be available on both Telegram and the web.
