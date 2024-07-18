@@ -67,6 +67,20 @@ body {
     animation: move-up 2s forwards;
 }
 
+.energie {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+
+}
+
+
+
 @keyframes move-up {
     0% {
         opacity: 1;
