@@ -18,12 +18,42 @@
         <div class="game__clicker-circle">
             <img class="game__main-image" src="/img/octopus/pure.png" alt="main-image">
         </div>
-        <div class="energie">
-            <img style="height: 25px;" src="/img/energie.png" alt="">
-            <p class="energie__value">1000</p> /
-            <p class="energie__max">1000</p>
+        <div class="game__footer">
+            <div class="energie">
+                <img style="height: 25px;" src="/img/energie.png" alt="">
+                <p class="energie__value">1000</p> /
+                <p class="energie__max">1000</p>
+            </div>
+            <div onclick="toggleBoostMenu()" class="boost">
+                Boost <img style="height: 25px;" src="/img/boost.png" alt="boost">
+            </div>
         </div>
     </div>
+    <div class="boost-menu">
+        <div class="boost-menu__controls">
+            <button onclick="toggleBoostMenu()" class="boost-menu__close-btn">
+                <img src="/img/back-arrow.png" alt="back arrow">
+            </button>
+        </div>
+        <div class="boost-menu__header">
+            <h4 class="boost-menu__title">Your balance:</h4>
+            <div class="boost-menu__balance-container">
+                <img src="/img/coins.png" alt="coins" class="boost-menu__coins-img">
+                <h2 class="boost-menu__balance">1000</h2>
+            </div>
+            <div class="boost-menu__bosters">
+                <div class="boost-menu__boost boost-menu__boost__energy">
+                    <img style="height: 50px;" src="/img/energie.png" alt="">
+                    <div>
+                        <h3>Full Energy</h3>
+                        <h5><span id="energie-limit">1</span>/1 available</h5>
+                    </div>
+                    <div id="energie-timer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="js/script.js"></script>
 </body>

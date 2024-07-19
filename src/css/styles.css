@@ -11,6 +11,7 @@ body {
     background-color: #313639;
 }
 
+
 .game__header {
     display: flex;
     align-items: center;
@@ -22,6 +23,7 @@ body {
     height: 50px;
 }
 
+.boost-menu__balance,
 .game__score {
     color: #fff;
     text-align: center;
@@ -30,13 +32,14 @@ body {
     margin-left: 5px;
 }
 
+
+
 .game__clicker-circle {
     position: relative;
-}
-
-
-.game__clicker-circle img {
     padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #232628;
     margin-top: 20px;
     width: 250px;
@@ -48,6 +51,142 @@ body {
     --tiltY: 0deg;
     transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
 }
+
+
+.game__clicker-circle img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game__footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.boost {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.boost-menu__close-btn,
+.boost-menu__close-btn img {
+    background-color: transparent;
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.boost-menu__title {
+    color: #fff;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 800;
+    margin-left: 5px;
+}
+
+.boost-menu__header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.boost-menu__balance-container img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.boost-menu__balance-container {
+    display: flex;
+    align-items: center;
+}
+
+.boost-menu__bosters {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.boost-menu__boost {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 10px;
+    background-color: #53575a;
+    padding: 40px 20px 40px 20px;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.boost-menu__boost h3 {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.boost-menu__boost h5 {
+    color: #929090;
+    font-size: 20px;
+}
+
+.boost-menu__boost__energy.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+#energie-timer {
+    position: absolute;
+    color: #fff;
+    top: 50%;
+    left: 70%;
+
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: 800;
+}
+
+
+.boost-menu__bosters h4 {
+
+    color: #fff;
+    font-size: 36px;
+    font-weight: 800;
+
+}
+
+
+.boost-menu {
+    position: fixed;
+    flex-direction: column;
+    margin: 0;
+    height: 100%;
+    padding: 0;
+    width: 100%;
+    display: none;
+    z-index: 999;
+    padding: 20px;
+    background-color: #313639;
+}
+
+
+
+
 
 /* Animation +1 */
 
@@ -68,7 +207,6 @@ body {
 }
 
 .energie {
-    margin-top: 20px;
     display: flex;
     align-items: center;
     gap: 5px;
