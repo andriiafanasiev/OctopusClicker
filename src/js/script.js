@@ -28,24 +28,27 @@ function setScore(score) {
 // Image change and lvl up
 const toLvlUp = document.querySelector("#to-lvl-up");
 function SetnextLvl(coins) {
-  if (coins >= 1000) {
-    toLvlUp.textContent = 5000;
+  if (coins >= 10000) {
+    toLvlUp.textContent = "50k";
   } else if (coins >= 5000) {
     toLvlUp.textContent = "10k";
-  } else if (coins >= 10000) {
+  } else if (coins >= 1000) {
+    toLvlUp.textContent = 5000;
+  } else {
+    toLvlUp.textContent = 1000;
   }
 }
 
 function setImage() {
   let score = getScore();
-  if (score >= 1000) {
-    $mainImg.setAttribute("src", "/img/octopus/normal.png");
+  if (score >= 10000) {
+    $mainImg.setAttribute("src", "/img/octopus/rich.png");
     SetnextLvl(score);
   } else if (score >= 5000) {
     $mainImg.setAttribute("src", "/img/octopus/employed.png");
     SetnextLvl(score);
-  } else if (score >= 10000) {
-    $mainImg.setAttribute("src", "/img/octopus/rich.png");
+  } else if (score >= 1000) {
+    $mainImg.setAttribute("src", "/img/octopus/normal.png");
     SetnextLvl(score);
   }
 }

@@ -285,3 +285,27 @@ body {
         transform: translateY(-50px);
     }
 }
+
+@media (max-width: 480px) {
+    .info__container {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .info__container {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 350px) {
+    .info__container {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .info__container {
+        font-size: 0.6rem;
+    }
+}
