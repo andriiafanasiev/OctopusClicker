@@ -4,6 +4,7 @@ body {
     height: 100%;
     padding: 0;
     width: 100%;
+    flex-direction: column;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -11,6 +12,48 @@ body {
     background-color: #313639;
 }
 
+.info {
+    display: flex;
+    gap: 3px;
+}
+
+.info__container {
+    font-size: 1rem;
+    background-color: #232628;
+    padding: 5px 20px;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 3px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info__container div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info__container img {
+    height: 20px;
+    margin-right: 5px;
+}
+
+.info__container:nth-child(1) .info__title {
+    color: #A85C2E;
+}
+
+.info__container:nth-child(2) .info__title {
+    color: #6B69AD;
+}
+
+.info__container:nth-child(3) .info__title {
+    color: #6D8D75;
+}
 
 .game__header {
     display: flex;
@@ -30,6 +73,10 @@ body {
     font-size: 36px;
     font-weight: 800;
     margin-left: 5px;
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 
@@ -50,6 +97,10 @@ body {
     --tiltX: 0deg;
     --tiltY: 0deg;
     transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 
@@ -57,6 +108,10 @@ body {
     width: 200px;
     height: 200px;
     border-radius: 50%;
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .game {

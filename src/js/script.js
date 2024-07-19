@@ -25,16 +25,31 @@ function setScore(score) {
   $score.textContent = score;
   $balance.textContent = score;
 }
-// Image change
-function setImage() {
-  if (getScore() >= 1000) {
-    $mainImg.setAttribute("src", "/img/octopus/normal.png");
-  } else if (getScore() >= 5000) {
-    $mainImg.setAttribute("src", "/img/octopus/employed.png");
-  } else if (getScore() >= 10000) {
-    $mainImg.setAttribute("src", "/img/octopus/rich.png");
+// Image change and lvl up
+const toLvlUp = document.querySelector("#to-lvl-up");
+function SetnextLvl(coins) {
+  if (coins >= 1000) {
+    toLvlUp.textContent = 5000;
+  } else if (coins >= 5000) {
+    toLvlUp.textContent = "10k";
+  } else if (coins >= 10000) {
   }
 }
+
+function setImage() {
+  let score = getScore();
+  if (score >= 1000) {
+    $mainImg.setAttribute("src", "/img/octopus/normal.png");
+    SetnextLvl(score);
+  } else if (score >= 5000) {
+    $mainImg.setAttribute("src", "/img/octopus/employed.png");
+    SetnextLvl(score);
+  } else if (score >= 10000) {
+    $mainImg.setAttribute("src", "/img/octopus/rich.png");
+    SetnextLvl(score);
+  }
+}
+
 // Energie control
 
 function getEnergie() {
@@ -131,7 +146,7 @@ function startRecoveryTimer(startTime) {
     } else {
       let minutes = Math.floor((remainingTime / 1000 / 60) % 60);
       let seconds = Math.floor((remainingTime / 1000) % 60);
-      $energieTimer.textContent = `${minutes} min ${seconds} sec`;
+      $energieTimer.innerHTML = `${minutes} min<br> ${seconds} sec`;
       localStorage.setItem("remainingTime", remainingTime);
       localStorage.setItem("recoveryEndTime", startTime + recoveryTime);
     }
