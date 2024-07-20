@@ -10,6 +10,10 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #313639;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .info {
@@ -233,20 +237,24 @@ body {
     height: 100%;
     padding: 0;
     width: 100%;
-    display: none;
+    display: block;
     z-index: 999;
     padding: 20px;
     background-color: #313639;
+    transition: visibility 0.3s, opacity 0.2s ease-in-out;
+    visibility: hidden;
+    opacity: 0;
 }
 
-
-
-
+.boost-menu.active {
+    visibility: visible;
+    opacity: 1;
+}
 
 /* Animation +1 */
 
 
-.plus-one {
+.plusCoins {
     position: absolute;
     font-family: Inter;
     text-shadow: 0px 0px 4px rgba(234, 182, 64, 0.25);

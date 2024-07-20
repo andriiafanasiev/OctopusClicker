@@ -11,8 +11,8 @@ function start() {
   restoreRecoveryState();
 }
 
-function addOne() {
-  setScore(getScore() + 1);
+function addCoins(coins) {
+  setScore(getScore() + coins);
   setImage();
 }
 
@@ -26,16 +26,33 @@ function setScore(score) {
   $balance.textContent = score;
 }
 // Image change and lvl up
+function getCurrentLevel() {
+  return parseInt(localStorage.getItem("currentLevel")) || 0;
+}
+
+function setCurrentLevel(level) {
+  localStorage.setItem("currentLevel", level);
+}
+
+let currentLevel = getCurrentLevel();
+
 const toLvlUp = document.querySelector("#to-lvl-up");
-function SetnextLvl(coins) {
-  if (coins >= 10000) {
+
+function setNextLvl(coins) {
+  if (coins >= 10000 && currentLevel < 3) {
     toLvlUp.textContent = "50k";
-  } else if (coins >= 5000) {
+    currentLevel = 3;
+    setCurrentLevel(currentLevel);
+  } else if (coins >= 5000 && currentLevel < 2) {
     toLvlUp.textContent = "10k";
-  } else if (coins >= 1000) {
-    toLvlUp.textContent = 5000;
-  } else {
-    toLvlUp.textContent = 1000;
+    currentLevel = 2;
+    setCurrentLevel(currentLevel);
+  } else if (coins >= 1000 && currentLevel < 1) {
+    toLvlUp.textContent = "5000";
+    currentLevel = 1;
+    setCurrentLevel(currentLevel);
+  } else if (currentLevel === 0) {
+    toLvlUp.textContent = "1000";
   }
 }
 
@@ -43,14 +60,14 @@ function setImage() {
   let score = getScore();
   if (score >= 10000) {
     $mainImg.setAttribute("src", "/img/octopus/rich.png");
-    SetnextLvl(score);
   } else if (score >= 5000) {
     $mainImg.setAttribute("src", "/img/octopus/employed.png");
-    SetnextLvl(score);
   } else if (score >= 1000) {
     $mainImg.setAttribute("src", "/img/octopus/normal.png");
-    SetnextLvl(score);
+  } else {
+    $mainImg.setAttribute("src", "/img/octopus/basic.png");
   }
+  setNextLvl(score);
 }
 
 // Energie control
@@ -70,6 +87,15 @@ setInterval(() => {
     setEnergie(getEnergie() + 1);
   }
 }, 2000);
+
+// Coins per tap (it will be changed)
+
+function getCoinsPerTap() {
+  return parseInt(localStorage.getItem("coinsPerTap")) || 1;
+}
+function setCoinsPerTap(coins) {
+  localStorage.setItem("coinsPerTap", coins);
+}
 
 // Click event
 
@@ -94,20 +120,20 @@ $circle.addEventListener("click", (event) => {
       $circle.style.setProperty("--tiltX", `0deg`);
       $circle.style.setProperty("--tiltY", `0deg`);
     }, 300);
+    const coinsPerTap = getCoinsPerTap();
+    const plusCoins = document.createElement("div");
+    plusCoins.classList.add("plusCoins");
+    plusCoins.textContent = "+" + coinsPerTap;
+    plusCoins.style.left = `${event.clientX - rect.left}px`;
+    plusCoins.style.top = `${event.clientY - rect.top}px`;
 
-    const plusOne = document.createElement("div");
-    plusOne.classList.add("plus-one");
-    plusOne.textContent = "+1";
-    plusOne.style.left = `${event.clientX - rect.left}px`;
-    plusOne.style.top = `${event.clientY - rect.top}px`;
+    $circle.parentElement.appendChild(plusCoins);
 
-    $circle.parentElement.appendChild(plusOne);
-
-    addOne();
+    addCoins(coinsPerTap);
     setEnergie(getEnergie() - 1);
 
     setTimeout(() => {
-      plusOne.remove();
+      plusCoins.remove();
     }, 2000);
   }
 });
@@ -117,11 +143,7 @@ $circle.addEventListener("click", (event) => {
 const $boostMenu = document.querySelector(".boost-menu");
 
 function toggleBoostMenu() {
-  if ($boostMenu.style.display === "" || $boostMenu.style.display === "none") {
-    $boostMenu.style.display = "block";
-  } else {
-    $boostMenu.style.display = "none";
-  }
+  $boostMenu.classList.toggle("active");
 }
 
 //Full energy boost
