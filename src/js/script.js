@@ -3,21 +3,26 @@ const $balance = document.querySelector(".boost-menu__balance");
 const $circle = document.querySelector(".game__clicker-circle");
 const $mainImg = document.querySelector(".game__main-image");
 const $energie = document.querySelector(".energie__value");
+const $toLvlUp = document.querySelector("#to-lvl-up");
+const $perTap = document.querySelector("#tap");
 
 function start() {
   setScore(getScore());
   setEnergie(getEnergie());
-  setImage();
+  updateLevel();
+  setCoinsPerTap(getCoinsPerTap());
   restoreRecoveryState();
 }
 
+//Coins and Score
+
 function addCoins(coins) {
   setScore(getScore() + coins);
-  setImage();
+  updateLevel();
 }
 
 function getScore() {
-  return Number(localStorage.getItem("score")) ?? 0;
+  return Number(localStorage.getItem("score")) || 0;
 }
 
 function setScore(score) {
@@ -25,52 +30,53 @@ function setScore(score) {
   $score.textContent = score;
   $balance.textContent = score;
 }
-// Image change and lvl up
+
+// Level
+
 function getCurrentLevel() {
-  return parseInt(localStorage.getItem("currentLevel")) || 0;
+  return Number(localStorage.getItem("level")) || 0;
 }
 
 function setCurrentLevel(level) {
-  localStorage.setItem("currentLevel", level);
+  localStorage.setItem("level", level);
 }
 
-let currentLevel = getCurrentLevel();
+function updateLevel() {
+  const score = getScore();
+  let level = getCurrentLevel();
+  let nextLevelScore = "";
 
-const toLvlUp = document.querySelector("#to-lvl-up");
-
-function setNextLvl(coins) {
-  if (coins >= 10000 && currentLevel < 3) {
-    toLvlUp.textContent = "50k";
-    currentLevel = 3;
-    setCurrentLevel(currentLevel);
-  } else if (coins >= 5000 && currentLevel < 2) {
-    toLvlUp.textContent = "10k";
-    currentLevel = 2;
-    setCurrentLevel(currentLevel);
-  } else if (coins >= 1000 && currentLevel < 1) {
-    toLvlUp.textContent = "5000";
-    currentLevel = 1;
-    setCurrentLevel(currentLevel);
-  } else if (currentLevel === 0) {
-    toLvlUp.textContent = "1000";
-  }
-}
-
-function setImage() {
-  let score = getScore();
-  if (score >= 10000) {
-    $mainImg.setAttribute("src", "/img/octopus/rich.png");
-  } else if (score >= 5000) {
-    $mainImg.setAttribute("src", "/img/octopus/employed.png");
-  } else if (score >= 1000) {
-    $mainImg.setAttribute("src", "/img/octopus/normal.png");
+  if (score >= 10000 && level < 3) {
+    level = 3;
+    nextLevelScore = "Max Lvl";
+  } else if (score >= 5000 && level < 2) {
+    level = 2;
+    nextLevelScore = "10k";
+  } else if (score >= 1000 && level < 1) {
+    level = 1;
+    nextLevelScore = "5000";
+  } else if (level === 0) {
+    nextLevelScore = "1000";
   } else {
-    $mainImg.setAttribute("src", "/img/octopus/basic.png");
+    nextLevelScore = level === 1 ? "5000" : "10k";
   }
-  setNextLvl(score);
+
+  setCurrentLevel(level);
+  $toLvlUp.textContent = nextLevelScore;
+  updateImage(level);
 }
 
-// Energie control
+function updateImage(level) {
+  const octopusImages = {
+    0: "/img/octopus/pure.png",
+    1: "/img/octopus/normal.png",
+    2: "/img/octopus/employed.png",
+    3: "/img/octopus/rich.png",
+  };
+  $mainImg.setAttribute("src", octopusImages[level]);
+}
+
+// Energie
 
 function getEnergie() {
   const energie = localStorage.getItem("energie");
@@ -82,32 +88,18 @@ function setEnergie(energie) {
   $energie.textContent = energie;
 }
 
+// Energy regenerator
 setInterval(() => {
   if (getEnergie() < 1000) {
     setEnergie(getEnergie() + 1);
   }
 }, 2000);
 
-// Coins per tap (it will be changed)
-
-function getCoinsPerTap() {
-  return parseInt(localStorage.getItem("coinsPerTap")) || 1;
-}
-function setCoinsPerTap(coins) {
-  localStorage.setItem("coinsPerTap", coins);
-}
-
-// Click event
-
 $circle.addEventListener("click", (event) => {
   if (getEnergie() > 0) {
-    // click animation
-
     const rect = $circle.getBoundingClientRect();
-
     const offsetX = event.clientX - rect.left - rect.width / 2;
     const offsetY = event.clientY - rect.top - rect.height / 2;
-
     const DEG = 40;
 
     const tiltX = (offsetY / rect.height) * DEG;
@@ -120,6 +112,7 @@ $circle.addEventListener("click", (event) => {
       $circle.style.setProperty("--tiltX", `0deg`);
       $circle.style.setProperty("--tiltY", `0deg`);
     }, 300);
+
     const coinsPerTap = getCoinsPerTap();
     const plusCoins = document.createElement("div");
     plusCoins.classList.add("plusCoins");
@@ -131,6 +124,7 @@ $circle.addEventListener("click", (event) => {
 
     addCoins(coinsPerTap);
     setEnergie(getEnergie() - 1);
+    updateLevel();
 
     setTimeout(() => {
       plusCoins.remove();
@@ -138,7 +132,7 @@ $circle.addEventListener("click", (event) => {
   }
 });
 
-// Boost menu
+// Upgrades
 
 const $boostMenu = document.querySelector(".boost-menu");
 
@@ -146,7 +140,45 @@ function toggleBoostMenu() {
   $boostMenu.classList.toggle("active");
 }
 
-//Full energy boost
+const $upgradeMenu = document.getElementById("upgrade-menu");
+const $upgradeCost = document.getElementById("tap-cost");
+
+function showUpgradeMenu() {
+  $upgradeMenu.classList.add("active");
+}
+
+function hideUpgradeMenu() {
+  $upgradeMenu.classList.remove("active");
+}
+
+function getCoinsPerTap() {
+  return parseInt(localStorage.getItem("coinsPerTap")) || 1;
+}
+
+function setCoinsPerTap(coins) {
+  localStorage.setItem("coinsPerTap", coins);
+  $perTap.textContent = coins;
+}
+
+function buyUpgrade() {
+  const currentBalance = getScore();
+  const cost = Number($upgradeCost.textContent);
+
+  if (currentBalance >= cost) {
+    setScore(currentBalance - cost);
+    setCoinsPerTap(getCoinsPerTap() + 1);
+    hideUpgradeMenu();
+    alert("Upgrade purchased!");
+  } else {
+    alert("Not enough coins!");
+  }
+}
+
+window.addEventListener("click", function (event) {
+  if (event.target === $upgradeMenu) {
+    hideUpgradeMenu();
+  }
+});
 
 const $energieBoost = document.querySelector(".boost-menu__boost__energy");
 const $energieLimit = document.querySelector("#energie-limit");

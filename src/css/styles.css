@@ -178,6 +178,7 @@ body {
 .boost-menu__bosters {
     width: 100%;
     display: flex;
+    gap: 5px;
     flex-direction: column;
 }
 
@@ -209,6 +210,18 @@ body {
     pointer-events: none;
 }
 
+.boost-menu__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+.boost-menu__bosters__free {
+    margin-bottom: 200px;
+}
+
 #energie-timer {
     position: absolute;
     color: #fff;
@@ -218,6 +231,36 @@ body {
     transform: translate(-50%, -50%);
     font-size: 24px;
     font-weight: 800;
+}
+
+.boost-menu__boost div h5 {
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+}
+
+.boost-menu__bosters__upgrade .boost-menu__boost {
+    display: flex;
+    justify-content: space-between;
+}
+
+.boost-menu__bosters__upgrade .boost-menu__boost div {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.boost-menu__bosters__upgrade .boost-menu__boost div div {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+.boost-menu__boost__tap button,
+.boost-menu__boost__tap button img {
+    background-color: transparent;
+    max-width: 40px;
+    max-height: 40px;
 }
 
 
@@ -250,6 +293,94 @@ body {
     visibility: visible;
     opacity: 1;
 }
+
+.upgrade-menu {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    right: 0;
+    background: #53575a;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    transition: bottom 0.3s;
+    z-index: 1000;
+}
+
+.upgrade-menu.active {
+    bottom: 0;
+}
+
+.upgrade-menu__content {
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    font-size: 2rem;
+    font-weight: 800;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    text-align: center;
+}
+
+.upgrade-menu__title {
+    font-weight: 800;
+    font-size: 2.5rem;
+}
+
+.upgrade-menu__description {
+    font-weight: 400;
+}
+
+.upgrade-menu__button {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background-color: #405cf5;
+    border-radius: 6px;
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .1) 0 2px 5px 0, rgba(0, 0, 0, .07) 0 1px 1px 0;
+    color: #fff;
+    cursor: pointer;
+    height: 44px;
+    margin: 12px 0 0;
+    padding: 0 25px;
+    transition: all .2s, box-shadow .08s ease-in;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.upgrade-menu__button:focus {
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+}
+
+
+.upgrade-menu__content img {
+    height: 150px;
+}
+
+
+.upgrade-menu__content h5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upgrade-menu__content button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 
 /* Animation +1 */
 

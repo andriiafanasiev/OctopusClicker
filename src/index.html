@@ -62,15 +62,46 @@
                 <img src="/img/icons/coins.png" alt="coins" class="boost-menu__coins-img">
                 <h2 class="boost-menu__balance">1000</h2>
             </div>
-            <div class="boost-menu__bosters">
-                <div class="boost-menu__boost boost-menu__boost__energy">
-                    <img style="height: 50px;" src="/img/icons/energie.png" alt="">
-                    <div>
-                        <h3>Full Energy</h3>
-                        <h5><span id="energie-limit">1</span>/1 available</h5>
+            <div class="boost-menu__content">
+                <div class="boost-menu__bosters boost-menu__bosters__free">
+                    <div class="boost-menu__boost boost-menu__boost__energy">
+                        <img style="height: 50px;" src="/img/icons/energie.png" alt="">
+                        <div>
+                            <h3>Full Energy</h3>
+                            <h5><span id="energie-limit">1</span>/1 available</h5>
+                        </div>
+                        <div id="energie-timer"></div>
                     </div>
-                    <div id="energie-timer"></div>
                 </div>
+                <div class="boost-menu__bosters boost-menu__bosters__upgrade">
+                    <div class="boost-menu__boost boost-menu__boost__tap" onclick="showUpgradeMenu()">
+                        <div>
+                            <img style="height: 50px;" src="/img/icons/tentacle.png" alt="">
+                            <div>
+                                <h3>Multitap</h3>
+                                <h5><img style="height: 24px;" src="/img/icons/coins.png"><span
+                                        id="tap-cost">1000</span></h5>
+                            </div>
+                        </div>
+                        <button>
+                            <img src="/img/icons/right-arrow.png" alt="">
+                        </button>
+                    </div>
+                </div>
+
+                <div id="upgrade-menu" class="upgrade-menu">
+                    <div class="upgrade-menu__content">
+                        <button class="close-btn" onclick="hideUpgradeMenu()">✖</button>
+                        <img id="upgrade-img" src="/img/icons/tentacle.png" alt="Upgrade Image">
+                        <h3 class="upgrade-menu__title" id="upgrade-title">Multitap</h3>
+                        <p class="upgrade-menu__description" id="upgrade-description">Increase your taps per second.</p>
+                        <h5><img style="height: 24px;" src="/img/icons/coins.png"><span id="upgrade-cost">1000</span>
+                        </h5>
+                        <button class="upgrade-menu__button" id="upgrade-button" onclick="buyUpgrade()">Buy
+                            Upgrade</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
