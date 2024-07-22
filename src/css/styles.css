@@ -297,6 +297,10 @@ body {
     opacity: 1;
 }
 
+.boost-menu__header {
+    overflow: scroll;
+}
+
 .upgrade-menu {
     position: fixed;
     bottom: -100%;
