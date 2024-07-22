@@ -2,13 +2,15 @@ const $score = document.querySelector(".game__score");
 const $balance = document.querySelector(".boost-menu__balance");
 const $circle = document.querySelector(".game__clicker-circle");
 const $mainImg = document.querySelector(".game__main-image");
-const $energie = document.querySelector(".energie__value");
+const $energy = document.querySelector(".energy__value");
+const $maxEnergy = document.querySelector(".energy__max");
 const $toLvlUp = document.querySelector("#to-lvl-up");
 const $perTap = document.querySelector("#tap");
 
 function start() {
   setScore(getScore());
-  setEnergie(getEnergie());
+  setEnergy(getEnergy());
+  setMaxEnergy(getMaxEnergy());
   updateLevel();
   setCoinsPerTap(getCoinsPerTap());
   restoreRecoveryState();
@@ -76,27 +78,15 @@ function updateImage(level) {
   $mainImg.setAttribute("src", octopusImages[level]);
 }
 
-// Energie
-
-function getEnergie() {
-  const energie = localStorage.getItem("energie");
-  return energie === null ? 1000 : Number(energie);
-}
-
-function setEnergie(energie) {
-  localStorage.setItem("energie", energie);
-  $energie.textContent = energie;
-}
-
 // Energy regenerator
 setInterval(() => {
-  if (getEnergie() < 1000) {
-    setEnergie(getEnergie() + 1);
+  if (getEnergy() < getMaxEnergy()) {
+    setEnergy(getEnergy() + 1);
   }
 }, 2000);
 
 $circle.addEventListener("click", (event) => {
-  if (getEnergie() > 0) {
+  if (getEnergy() > 0) {
     const rect = $circle.getBoundingClientRect();
     const offsetX = event.clientX - rect.left - rect.width / 2;
     const offsetY = event.clientY - rect.top - rect.height / 2;
@@ -123,8 +113,9 @@ $circle.addEventListener("click", (event) => {
     $circle.parentElement.appendChild(plusCoins);
 
     addCoins(coinsPerTap);
-    setEnergie(getEnergie() - 1);
+    setEnergy(getEnergy() - 1);
     updateLevel();
+    setMaxEnergy(getMaxEnergy());
 
     setTimeout(() => {
       plusCoins.remove();
@@ -140,10 +131,43 @@ function toggleBoostMenu() {
   $boostMenu.classList.toggle("active");
 }
 
-const $upgradeMenu = document.getElementById("upgrade-menu");
-const $upgradeCost = document.getElementById("tap-cost");
+const $upgradeMenu = document.querySelector("#upgrade-menu");
+const $upgradeImg = document.querySelector("#upgrade-img");
+const $upgradeTitle = document.querySelector("#upgrade-title");
+const $upgradeDescription = document.querySelector("#upgrade-description");
+const $upgradeBtn = document.querySelector(".upgrade-menu__button");
+const $upgradeCost = document.querySelector("#upgrade-cost");
 
-function showUpgradeMenu() {
+const $upgrades = document.querySelectorAll(
+  ".boost-menu__bosters__upgrade .boost-menu__boost"
+);
+
+const $energieUpgrade = document.querySelector("#energie-upgrade");
+const $tapUpgrade = document.querySelector("#tap-upgrade");
+
+for (let upgrade of $upgrades) {
+  upgrade.addEventListener("click", (e) => {
+    showUpgradeMenu(e.currentTarget);
+  });
+}
+
+function showUpgradeMenu(upgrade) {
+  const imgSrc = upgrade.querySelector("img").src;
+  const title = upgrade.querySelector("h3").textContent;
+  const cost = upgrade.querySelector("span").textContent;
+
+  $upgradeImg.src = imgSrc;
+  $upgradeTitle.textContent = title;
+  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()}.`;
+  $upgradeCost.textContent = cost;
+
+  $upgradeBtn.removeEventListener("click", handleUpgradeClick);
+  $upgradeBtn.addEventListener("click", handleUpgradeClick);
+
+  function handleUpgradeClick() {
+    buyUpgrade(upgrade);
+  }
+
   $upgradeMenu.classList.add("active");
 }
 
@@ -160,13 +184,18 @@ function setCoinsPerTap(coins) {
   $perTap.textContent = coins;
 }
 
-function buyUpgrade() {
+function buyUpgrade(upgrade) {
   const currentBalance = getScore();
   const cost = Number($upgradeCost.textContent);
+  const upgradeName = $upgradeTitle.textContent.toLowerCase();
 
   if (currentBalance >= cost) {
     setScore(currentBalance - cost);
-    setCoinsPerTap(getCoinsPerTap() + 1);
+    if (upgradeName === "multitap") {
+      upgradeMultitap();
+    } else if (upgradeName === "max energy") {
+      upgradeMaxEnergy();
+    }
     hideUpgradeMenu();
     alert("Upgrade purchased!");
   } else {
@@ -180,11 +209,39 @@ window.addEventListener("click", function (event) {
   }
 });
 
-const $energieBoost = document.querySelector(".boost-menu__boost__energy");
-const $energieLimit = document.querySelector("#energie-limit");
-const $energieTimer = document.querySelector("#energie-timer");
-let energieBoostLimit = 1;
-let recoveryTime = 60 * 60 * 1000; // 60 minutes in milliseconds
+// Energie
+
+function getMaxEnergy() {
+  const maxEnergy = localStorage.getItem("maxEnergy");
+  return maxEnergy === null ? 1000 : Number(maxEnergy);
+}
+function setMaxEnergy(maxEnergy) {
+  localStorage.setItem("maxEnergy", maxEnergy);
+  $maxEnergy.textContent = maxEnergy;
+}
+
+function getEnergy() {
+  const energy = localStorage.getItem("energy");
+  return energy === null ? 1000 : Number(energy);
+}
+
+function setEnergy(energy) {
+  localStorage.setItem("energy", energy);
+  $energy.textContent = energy;
+}
+function upgradeMaxEnergy() {
+  setMaxEnergy(getMaxEnergy() + 500);
+}
+
+function upgradeMultitap() {
+  setCoinsPerTap(getCoinsPerTap() + 1);
+}
+
+const $energyBoost = document.querySelector(".boost-menu__boost__energy");
+const $energyLimit = document.querySelector("#energy-limit");
+const $energyTimer = document.querySelector("#energy-timer");
+let energyBoostLimit = 1;
+let recoveryTime = 60 * 60 * 1000; // 60 min in milliseconds
 let recoveryInterval;
 let remainingTime = recoveryTime;
 
@@ -194,16 +251,16 @@ function startRecoveryTimer(startTime) {
     remainingTime = recoveryTime - elapsedTime;
 
     if (remainingTime <= 0) {
-      energieBoostLimit = 1;
-      $energieLimit.textContent = energieBoostLimit;
-      $energieBoost.classList.remove("disabled");
-      $energieTimer.textContent = "";
+      energyBoostLimit = 1;
+      $energyLimit.textContent = energyBoostLimit;
+      $energyBoost.classList.remove("disabled");
+      $energyTimer.textContent = "";
       clearInterval(recoveryInterval);
       localStorage.removeItem("recoveryEndTime");
     } else {
       let minutes = Math.floor((remainingTime / 1000 / 60) % 60);
       let seconds = Math.floor((remainingTime / 1000) % 60);
-      $energieTimer.innerHTML = `${minutes} min<br> ${seconds} sec`;
+      $energyTimer.innerHTML = `${minutes} min<br> ${seconds} sec`;
       localStorage.setItem("remainingTime", remainingTime);
       localStorage.setItem("recoveryEndTime", startTime + recoveryTime);
     }
@@ -215,9 +272,9 @@ function restoreRecoveryState() {
   if (recoveryEndTime) {
     let timeLeft = recoveryEndTime - Date.now();
     if (timeLeft > 0) {
-      energieBoostLimit = 0;
-      $energieLimit.textContent = energieBoostLimit;
-      $energieBoost.classList.add("disabled");
+      energyBoostLimit = 0;
+      $energyLimit.textContent = energyBoostLimit;
+      $energyBoost.classList.add("disabled");
       recoveryTime = timeLeft;
       startRecoveryTimer(Date.now() - (recoveryTime - timeLeft));
     } else {
@@ -227,12 +284,12 @@ function restoreRecoveryState() {
   }
 }
 
-$energieBoost.addEventListener("click", () => {
-  if (energieBoostLimit > 0) {
-    setEnergie(1000);
-    energieBoostLimit--;
-    $energieLimit.textContent = energieBoostLimit;
-    $energieBoost.classList.add("disabled");
+$energyBoost.addEventListener("click", () => {
+  if (energyBoostLimit > 0) {
+    setEnergy(getMaxEnergy());
+    energyBoostLimit--;
+    $energyLimit.textContent = energyBoostLimit;
+    $energyBoost.classList.add("disabled");
     let startTime = Date.now();
     startRecoveryTimer(startTime);
   }

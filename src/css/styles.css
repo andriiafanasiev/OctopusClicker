@@ -219,10 +219,10 @@ body {
 }
 
 .boost-menu__bosters__free {
-    margin-bottom: 200px;
+    margin-bottom: 150px;
 }
 
-#energie-timer {
+#energy-timer {
     position: absolute;
     color: #fff;
     top: 50%;
@@ -256,12 +256,14 @@ body {
     gap: 0px;
 }
 
-.boost-menu__boost__tap button,
-.boost-menu__boost__tap button img {
+.boost-menu__bosters .boost-menu__boost button,
+.boost-menu__bosters .boost-menu__boost button img {
     background-color: transparent;
     max-width: 40px;
     max-height: 40px;
 }
+
+
 
 
 .boost-menu__bosters h4 {
@@ -284,6 +286,7 @@ body {
     z-index: 999;
     padding: 20px;
     background-color: #313639;
+    overflow: hidden;
     transition: visibility 0.3s, opacity 0.2s ease-in-out;
     visibility: hidden;
     opacity: 0;
@@ -400,7 +403,7 @@ body {
     animation: move-up 2s forwards;
 }
 
-.energie {
+.energy {
     display: flex;
     align-items: center;
     gap: 5px;
