@@ -219,7 +219,7 @@ body {
 }
 
 .boost-menu__bosters__free {
-    margin-bottom: 150px;
+    margin-bottom: 100px;
 }
 
 #energy-timer {
@@ -297,7 +297,7 @@ body {
     opacity: 1;
 }
 
-.boost-menu__header {
+.boost-menu {
     overflow: scroll;
 }
 

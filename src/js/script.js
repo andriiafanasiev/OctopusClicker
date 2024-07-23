@@ -13,6 +13,7 @@ function start() {
   setMaxEnergy(getMaxEnergy());
   updateLevel();
   setCoinsPerTap(getCoinsPerTap());
+  setCoinsPerHour(getCoinsPerHour());
   restoreRecoveryState();
 }
 
@@ -145,6 +146,18 @@ const $upgrades = document.querySelectorAll(
 const $energieUpgrade = document.querySelector("#energie-upgrade");
 const $tapUpgrade = document.querySelector("#tap-upgrade");
 
+let multitapPurchases = localStorage.getItem("multitapPurchases")
+  ? parseInt(localStorage.getItem("multitapPurchases"))
+  : 0;
+let multitapCost = localStorage.getItem("multitapCost")
+  ? parseInt(localStorage.getItem("multitapCost"))
+  : 1000;
+let maxEnergyCost = localStorage.getItem("maxEnergyCost")
+  ? parseInt(localStorage.getItem("maxEnergyCost"))
+  : 1000;
+document.querySelector("#multitap-cost").textContent = multitapCost;
+document.querySelector("#max-energy-cost").textContent = maxEnergyCost;
+
 for (let upgrade of $upgrades) {
   upgrade.addEventListener("click", (e) => {
     showUpgradeMenu(e.currentTarget);
@@ -231,10 +244,22 @@ function setEnergy(energy) {
 }
 function upgradeMaxEnergy() {
   setMaxEnergy(getMaxEnergy() + 500);
+  maxEnergyCost += 1000;
+  localStorage.setItem("maxEnergyCost", maxEnergyCost);
+  document.querySelector("#max-energy-cost").textContent = maxEnergyCost;
 }
 
 function upgradeMultitap() {
-  setCoinsPerTap(getCoinsPerTap() + 1);
+  if (multitapPurchases < 8) {
+    setCoinsPerTap(getCoinsPerTap() + 1);
+    multitapPurchases++;
+    multitapCost += 1000;
+    localStorage.setItem("multitapPurchases", multitapPurchases);
+    localStorage.setItem("multitapCost", multitapCost);
+    document.querySelector("#multitap-cost").textContent = multitapCost;
+  } else {
+    alert("Multitap upgrade is maxed out!");
+  }
 }
 
 const $energyBoost = document.querySelector(".boost-menu__boost__energy");
@@ -294,5 +319,21 @@ $energyBoost.addEventListener("click", () => {
     startRecoveryTimer(startTime);
   }
 });
+
+const $coinsPerHour = document.querySelector("#perHour");
+
+function setCoinsPerHour(coins) {
+  localStorage.setItem("coinsPerHour", coins);
+  $coinsPerHour.textContent = coins;
+}
+function getCoinsPerHour() {
+  return localStorage.getItem("coinsPerHour") ?? 0;
+}
+
+if (getCoinsPerHour() > 0) {
+  setInterval(() => {
+    addCoins(getCoinsPerHour() / 3600); // per second
+  }, 1000);
+}
 
 start();
