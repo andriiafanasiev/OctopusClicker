@@ -336,4 +336,45 @@ if (getCoinsPerHour() > 0) {
   }, 1000);
 }
 
+const $barItems = document.querySelectorAll(".menu-bar__item");
+const $tabContents = document.querySelectorAll(".tab-content");
+const $gameContent = document.querySelectorAll(
+  ".game__header, .game__clicker-circle, .game__footer, .info"
+);
+
+$barItems.forEach((barItem) => {
+  barItem.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // Remove active class from all items
+    $barItems.forEach((item) => {
+      item.classList.remove("menu-bar__item__active");
+    });
+
+    // Add active class to the clicked item
+    barItem.classList.add("menu-bar__item__active");
+
+    // Get the target section
+    const targetId = barItem.getAttribute("href").substring(1);
+
+    // Hide all tab contents
+    $tabContents.forEach((tabContent) => {
+      tabContent.classList.remove("tab-content__active");
+    });
+
+    // Show the target tab content if it exists
+    const targetContent = document.getElementById(targetId);
+    if (targetContent) {
+      targetContent.classList.add("tab-content__active");
+    }
+
+    // Show or hide the game content based on the target section
+    if (targetId === "home") {
+      $gameContent.forEach((element) => element.classList.remove("hidden"));
+    } else {
+      $gameContent.forEach((element) => element.classList.add("hidden"));
+    }
+  });
+});
+
 start();
