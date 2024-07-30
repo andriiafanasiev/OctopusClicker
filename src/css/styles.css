@@ -1,5 +1,6 @@
 html,
 body {
+    position: relative;
     margin: 0;
     height: 100%;
     padding: 0;
@@ -627,6 +628,34 @@ body {
 .mine-tab__card-button:hover {
     background-color: #555;
 }
+
+.coin {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 1000;
+    background-image: url('/img/icons/coins.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: fall linear;
+}
+
+@keyframes fall {
+    0% {
+        top: -50px;
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 100vh;
+        opacity: 0;
+    }
+}
+
 
 @media (max-width: 1024px) {
     .mine-tab__grid {

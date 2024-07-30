@@ -114,7 +114,7 @@ $circle.addEventListener("click", (event) => {
     $circle.parentElement.appendChild(plusCoins);
 
     addCoins(coinsPerTap);
-    setEnergy(getEnergy() - 1);
+    setEnergy(getEnergy() - getCoinsPerTap());
     updateLevel();
     setMaxEnergy(getMaxEnergy());
 
@@ -210,6 +210,7 @@ function buyUpgrade(upgrade) {
     } else if (upgradeName === "max energy") {
       upgradeMaxEnergy();
     }
+    startFallingCoins();
     hideUpgradeMenu();
     alert("Upgrade purchased!");
   } else {
@@ -420,7 +421,7 @@ function showCardsUpgradeMenu(card) {
 function buyCardUpgrade(card) {
   const currentBalance = getScore();
   const cost = parseNumber($cardsUpgradeCost.textContent);
-  const income = parseNumber($cardsUpgradeIncome.textContent.split(" ")[0]);
+  const income = parseNumber($cardsUpgradeIncome.textContent);
   const upgradeName = $cardsUpgradeTitle.textContent.toLowerCase();
 
   console.log(`Current Balance: ${currentBalance}`);
@@ -430,6 +431,7 @@ function buyCardUpgrade(card) {
   if (currentBalance >= cost) {
     setScore(currentBalance - cost);
     updateCoinsPerHour(income);
+    startFallingCoins();
     hideUpgradeMenu();
     alert("Upgrade purchased!");
   } else {
@@ -445,4 +447,26 @@ function updateCoinsPerHour(coins) {
   setCoinsPerHour(Number(getCoinsPerHour()) + coins);
 }
 
+const container = document.querySelector("body");
+let intervalId;
+
+function createCoin() {
+  const coin = document.createElement("div");
+  coin.classList.add("coin");
+  coin.style.left = Math.random() * window.innerWidth + "px";
+  coin.style.animationDuration = 2 + "s";
+  container.appendChild(coin);
+
+  setTimeout(() => {
+    coin.remove();
+  }, 2000);
+}
+
+function startFallingCoins() {
+  intervalId = setInterval(createCoin, 200);
+
+  setTimeout(() => {
+    clearInterval(intervalId);
+  }, 3000);
+}
 start();
