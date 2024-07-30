@@ -108,11 +108,12 @@
                         <img src="/img/icons/mine-icons/apple.png" alt="Apple Actions">
                     </div>
                     <div class="mine-tab__card-content">
-                        <h3 class="mine-tab__card-title">Buy Apple Actions</h3>
+                        <h3 class="mine-tab__card-title">Apple Actions</h3>
                         <p class="mine-tab__card-description">Invest in Apple stocks to increase your wealth.</p>
                         <div class="mine-tab__card-details">
                             <span class="mine-tab__card-price">$1500</span>
-                            <span class="mine-tab__card-income">Income: $25/hour</span>
+                            <span class="mine-tab__card-income">Income: $<span class="card-income">25</span>/hour</span>
+
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
                     </div>
@@ -127,7 +128,8 @@
                         </p>
                         <div class="mine-tab__card-details">
                             <span class="mine-tab__card-price">$2000</span>
-                            <span class="mine-tab__card-income">Income: $50/hour</span>
+                            <span class="mine-tab__card-income">Income: $<span class="card-income">50</span>/hour</span>
+
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
                     </div>
@@ -140,7 +142,7 @@
                         <p class="mine-tab__card-description">Invest in Bitcoin for digital currency gains.</p>
                         <div class="mine-tab__card-details">
                             <span class="mine-tab__card-price">$2500</span>
-                            <span class="mine-tab__card-income">Income: $30/hour</span>
+                            <span class="mine-tab__card-income">Income: $<span class="card-income">30</span>/hour</span>
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
                     </div>
@@ -153,7 +155,7 @@
                         <p class="mine-tab__card-description">Invest in property for long-term gains.</p>
                         <div class="mine-tab__card-details">
                             <span class="mine-tab__card-price">$5000</span>
-                            <span class="mine-tab__card-income">Income: $75/hour</span>
+                            <span class="mine-tab__card-income">Income: $<span class="card-income">75</span>/hour</span>
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
                     </div>
@@ -166,7 +168,8 @@
                         <p class="mine-tab__card-description">Diversify your investments with mutual funds.</p>
                         <div class="mine-tab__card-details">
                             <span class="mine-tab__card-price">$1200</span>
-                            <span class="mine-tab__card-income">Income: $20/hour</span>
+                            <span class="mine-tab__card-income">Income: $<span class="card-income">20</span>/hour</span>
+
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
                     </div>
@@ -178,10 +181,24 @@
                         <p class="mine-tab__card-description">Invest in gold as a safe-haven asset.</p>
                         <div class="mine-tab__card-details">
                             <span class="mine-tab__card-price">$3000</span>
-                            <span class="mine-tab__card-income">Income: $40/hour</span>
+                            <span class="mine-tab__card-income">Income: $<span class="card-income">40</span>/hour</span>
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
                     </div>
+                </div>
+            </div>
+            <div id="cards-upgrade-menu" class="upgrade-menu">
+                <div class="upgrade-menu__content">
+                    <button class="close-btn" onclick="hideUpgradeMenu()">✖</button>
+                    <img id="cards-upgrade-img" src="" alt="Upgrade Image">
+                    <h3 class="upgrade-menu__title" id="cards-upgrade-title"></h3>
+                    <p class="upgrade-menu__description" id="cards-upgrade-description"></p>
+                    <p style="font-size: 25px;">Profit per hour</p>
+                    <div class="cards-upgrade-income-container"><img src="/img/icons/coins.png" alt="coins"><span
+                            id="cards-upgrade-income"></span></div>
+                    <h5><img style="height: 24px;" src="/img/icons/coins.png"><span id="cards-upgrade-cost"></span>
+                    </h5>
+                    <button class="upgrade-menu__button" id="cards-upgrade-button">Invest</button>
                 </div>
             </div>
         </div>

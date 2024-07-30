@@ -185,6 +185,7 @@ function showUpgradeMenu(upgrade) {
 }
 
 function hideUpgradeMenu() {
+  $cardsUpgradeMenu.classList.remove("active");
   $upgradeMenu.classList.remove("active");
 }
 
@@ -217,7 +218,7 @@ function buyUpgrade(upgrade) {
 }
 
 window.addEventListener("click", function (event) {
-  if (event.target === $upgradeMenu) {
+  if (event.target === $upgradeMenu || event.target === $cardsUpgradeMenu) {
     hideUpgradeMenu();
   }
 });
@@ -319,20 +320,25 @@ $energyBoost.addEventListener("click", () => {
     startRecoveryTimer(startTime);
   }
 });
-
 const $coinsPerHour = document.querySelector("#perHour");
 
 function setCoinsPerHour(coins) {
   localStorage.setItem("coinsPerHour", coins);
   $coinsPerHour.textContent = coins;
 }
+
 function getCoinsPerHour() {
   return localStorage.getItem("coinsPerHour") ?? 0;
 }
 
 if (getCoinsPerHour() > 0) {
+  let accumulatedCoins = 0;
   setInterval(() => {
-    addCoins(getCoinsPerHour() / 3600); // per second
+    accumulatedCoins += getCoinsPerHour() / 3600;
+    if (accumulatedCoins >= 1) {
+      addCoins(Math.floor(accumulatedCoins));
+      accumulatedCoins -= Math.floor(accumulatedCoins);
+    }
   }, 1000);
 }
 
@@ -346,29 +352,23 @@ $barItems.forEach((barItem) => {
   barItem.addEventListener("click", (e) => {
     e.preventDefault();
 
-    // Remove active class from all items
     $barItems.forEach((item) => {
       item.classList.remove("menu-bar__item__active");
     });
 
-    // Add active class to the clicked item
     barItem.classList.add("menu-bar__item__active");
 
-    // Get the target section
     const targetId = barItem.getAttribute("href").substring(1);
 
-    // Hide all tab contents
     $tabContents.forEach((tabContent) => {
       tabContent.classList.remove("tab-content__active");
     });
 
-    // Show the target tab content if it exists
     const targetContent = document.getElementById(targetId);
     if (targetContent) {
       targetContent.classList.add("tab-content__active");
     }
 
-    // Show or hide the game content based on the target section
     if (targetId === "home") {
       $gameContent.forEach((element) => element.classList.remove("hidden"));
     } else {
@@ -376,5 +376,73 @@ $barItems.forEach((barItem) => {
     }
   });
 });
+const $mineTabItems = document.querySelectorAll(".mine-tab__card");
+
+$mineTabItems.forEach(($mineTabItem) => {
+  $mineTabItem.addEventListener("click", (e) => {
+    showCardsUpgradeMenu(e.currentTarget);
+  });
+});
+
+const $cardsUpgradeMenu = document.querySelector("#cards-upgrade-menu");
+const $cardsUpgradeImg = document.querySelector("#cards-upgrade-img");
+const $cardsUpgradeTitle = document.querySelector("#cards-upgrade-title");
+const $cardsUpgradeDescription = document.querySelector(
+  "#cards-upgrade-description"
+);
+const $cardsUpgradeBtn = document.querySelector("#cards-upgrade-button");
+const $cardsUpgradeCost = document.querySelector("#cards-upgrade-cost");
+const $cardsUpgradeIncome = document.querySelector("#cards-upgrade-income");
+
+function showCardsUpgradeMenu(card) {
+  const imgSrc = card.querySelector("img").src;
+  const title = card.querySelector("h3").textContent;
+  const cost = card.querySelector("span").textContent.trim();
+  const description = card.querySelector("p").textContent;
+  const income = card.querySelector(".card-income").textContent.trim();
+
+  $cardsUpgradeImg.src = imgSrc;
+  $cardsUpgradeTitle.textContent = title;
+  $cardsUpgradeDescription.textContent = description;
+  $cardsUpgradeCost.textContent = cost;
+  $cardsUpgradeIncome.textContent = ` +${income} `;
+
+  $cardsUpgradeBtn.removeEventListener("click", handleUpgradeClick);
+  $cardsUpgradeBtn.addEventListener("click", handleUpgradeClick);
+
+  function handleUpgradeClick() {
+    buyCardUpgrade(card);
+  }
+
+  $cardsUpgradeMenu.classList.add("active");
+}
+
+function buyCardUpgrade(card) {
+  const currentBalance = getScore();
+  const cost = parseNumber($cardsUpgradeCost.textContent);
+  const income = parseNumber($cardsUpgradeIncome.textContent.split(" ")[0]);
+  const upgradeName = $cardsUpgradeTitle.textContent.toLowerCase();
+
+  console.log(`Current Balance: ${currentBalance}`);
+  console.log(`Cost: ${cost}`);
+  console.log(`Income: ${income}`);
+
+  if (currentBalance >= cost) {
+    setScore(currentBalance - cost);
+    updateCoinsPerHour(income);
+    hideUpgradeMenu();
+    alert("Upgrade purchased!");
+  } else {
+    alert("Not enough coins!");
+  }
+}
+
+function parseNumber(value) {
+  return Number(value.replace(/[^0-9.-]+/g, ""));
+}
+
+function updateCoinsPerHour(coins) {
+  setCoinsPerHour(Number(getCoinsPerHour()) + coins);
+}
 
 start();

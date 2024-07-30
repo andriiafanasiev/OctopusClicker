@@ -378,6 +378,12 @@ body {
     cursor: pointer;
 }
 
+
+.upgrade-menu__button {
+    width: 100%;
+    height: 60px;
+}
+
 .close-btn {
     position: absolute;
     top: 10px;
@@ -530,8 +536,9 @@ body {
 .mine-tab__card {
     background-color: #333;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
+    width: 300px;
     border: 1px solid #444;
     padding: 20px;
     text-align: center;
@@ -555,6 +562,7 @@ body {
 }
 
 .mine-tab__card-description {
+    display: none;
     font-size: 14px;
     color: #aaa;
     margin: 0 0 15px;
@@ -563,6 +571,12 @@ body {
 .mine-tab__card-details {
     font-size: 14px;
     color: #ddd;
+}
+
+.mine-tab__card-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .mine-tab__card-price {
@@ -577,12 +591,35 @@ body {
     color: #bbb;
 }
 
+
+
+.cards-upgrade-income-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cards-upgrade-income-container img {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+#cards-upgrade-income {
+    font-size: 20px;
+}
+
+#cards-upgrade-cost {
+    font-weight: 800;
+}
+
 .mine-tab__card-button {
     background-color: #444;
     color: #ffffff;
     border: none;
     border-radius: 4px;
     padding: 10px 15px;
+    margin-top: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -594,12 +631,6 @@ body {
 @media (max-width: 1024px) {
     .mine-tab__grid {
         grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .mine-tab__grid {
-        grid-template-columns: 1fr;
     }
 }
 
