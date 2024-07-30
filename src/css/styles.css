@@ -515,6 +515,7 @@ body {
 .mine-tab__title {
     font-size: 2rem;
     text-transform: uppercase;
+    text-align: center;
     margin-bottom: 20px;
     font-weight: 800;
     color: #ffffff;
@@ -530,6 +531,7 @@ body {
 
 .mine-tab__card-image,
 .mine-tab__card-image img {
+    margin-right: 10px;
     max-width: 80x;
     max-height: 80px;
 }
@@ -629,7 +631,7 @@ body {
     background-color: #555;
 }
 
-.coin {
+.coin-fall {
     position: absolute;
     width: 50px;
     height: 50px;
@@ -663,6 +665,21 @@ body {
     }
 }
 
+@media (max-width: 720px) {
+    .mine-tab__title {
+        font-size: 1.5rem;
+    }
+
+    .mine-tab__card-image,
+    .mine-tab__card-image img {
+        max-height: 50px;
+    }
+
+    .mine-tab__card {
+        width: 250px;
+    }
+}
+
 
 @keyframes move-up {
     0% {
@@ -679,6 +696,15 @@ body {
 @media (max-width: 480px) {
     .info__container {
         font-size: 0.9rem;
+    }
+
+    .mine-tab__card-image,
+    .mine-tab__card-image img {
+        max-height: 30px;
+    }
+
+    .mine-tab__card {
+        width: 150px;
     }
 }
 

@@ -452,7 +452,7 @@ let intervalId;
 
 function createCoin() {
   const coin = document.createElement("div");
-  coin.classList.add("coin");
+  coin.classList.add("coin-fall");
   coin.style.left = Math.random() * window.innerWidth + "px";
   coin.style.animationDuration = 2 + "s";
   container.appendChild(coin);
