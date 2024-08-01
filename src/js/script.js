@@ -71,10 +71,10 @@ function updateLevel() {
 
 function updateImage(level) {
   const octopusImages = {
-    0: "/img/octopus/pure.png",
-    1: "/img/octopus/normal.png",
-    2: "/img/octopus/employed.png",
-    3: "/img/octopus/rich.png",
+    0: "assets/img/octopus/pure.png",
+    1: "assets/img/octopus/normal.png",
+    2: "assets/img/octopus/employed.png",
+    3: "assets/img/octopus/rich.png",
   };
   $mainImg.setAttribute("src", octopusImages[level]);
 }

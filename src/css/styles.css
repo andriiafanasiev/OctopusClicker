@@ -636,7 +636,7 @@ body {
     width: 50px;
     height: 50px;
     z-index: 1000;
-    background-image: url('/img/icons/coins.png');
+    background-image: url('assets/img/icons/coins.png');
     background-size: contain;
     background-repeat: no-repeat;
     animation: fall linear;
