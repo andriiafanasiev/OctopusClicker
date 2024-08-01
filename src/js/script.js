@@ -136,7 +136,7 @@ const $upgradeMenu = document.querySelector("#upgrade-menu");
 const $upgradeImg = document.querySelector("#upgrade-img");
 const $upgradeTitle = document.querySelector("#upgrade-title");
 const $upgradeDescription = document.querySelector("#upgrade-description");
-const $upgradeBtn = document.querySelector(".upgrade-menu__button");
+const $upgradeBtn = document.querySelector("#upgrade-button");
 const $upgradeCost = document.querySelector("#upgrade-cost");
 
 const $upgrades = document.querySelectorAll(
@@ -210,8 +210,8 @@ function buyUpgrade(upgrade) {
     } else if (upgradeName === "max energy") {
       upgradeMaxEnergy();
     }
-    startFallingCoins();
     hideUpgradeMenu();
+    startFallingCoins();
     alert("Upgrade purchased!");
   } else {
     alert("Not enough coins!");
@@ -426,8 +426,8 @@ function buyCardUpgrade(card) {
   if (currentBalance >= cost) {
     setScore(currentBalance - cost);
     updateCoinsPerHour(income);
-    startFallingCoins();
     hideUpgradeMenu();
+    startFallingCoins();
     alert("Upgrade purchased!");
   } else {
     alert("Not enough coins!");
@@ -464,7 +464,5 @@ function startFallingCoins() {
     clearInterval(intervalId);
   }, 3000);
 }
-
-console.log(localStorage.getItem("multitapPurchases"));
 
 start();

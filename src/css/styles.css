@@ -640,7 +640,7 @@ body {
     width: 50px;
     height: 50px;
     z-index: 1000;
-    background-image: url('assets/img/icons/coins.png');
+    background-image: url('../assets/img/icons/coins.png');
     background-size: contain;
     background-repeat: no-repeat;
     animation: fall linear;
@@ -666,12 +666,12 @@ body {
     }
 }
 
-
-@media (max-width: 1024px) {
-    .mine-tab__grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.mine-tab__grid {
+    grid-template-columns: repeat(2, 1fr);
 }
+
+
+
 
 @media (max-width: 720px) {
     .mine-tab__title {
