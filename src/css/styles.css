@@ -264,6 +264,10 @@ body {
     max-height: 40px;
 }
 
+.multitap-lvl {
+    display: flex;
+    flex-direction: row;
+}
 
 
 
@@ -641,6 +645,10 @@ body {
     background-repeat: no-repeat;
     animation: fall linear;
 }
+
+
+
+
 
 @keyframes fall {
     0% {

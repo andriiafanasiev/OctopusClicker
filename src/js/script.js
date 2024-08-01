@@ -469,4 +469,5 @@ function startFallingCoins() {
     clearInterval(intervalId);
   }, 3000);
 }
+
 start();
