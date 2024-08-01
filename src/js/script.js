@@ -422,11 +422,6 @@ function buyCardUpgrade(card) {
   const currentBalance = getScore();
   const cost = parseNumber($cardsUpgradeCost.textContent);
   const income = parseNumber($cardsUpgradeIncome.textContent);
-  const upgradeName = $cardsUpgradeTitle.textContent.toLowerCase();
-
-  console.log(`Current Balance: ${currentBalance}`);
-  console.log(`Cost: ${cost}`);
-  console.log(`Income: ${income}`);
 
   if (currentBalance >= cost) {
     setScore(currentBalance - cost);
@@ -469,5 +464,7 @@ function startFallingCoins() {
     clearInterval(intervalId);
   }, 3000);
 }
+
+console.log(localStorage.getItem("multitapPurchases"));
 
 start();
