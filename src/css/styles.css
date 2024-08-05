@@ -635,6 +635,57 @@ body {
     background-color: #555;
 }
 
+.earn__top-image {
+    height: 106px;
+    margin: 24px auto;
+    position: relative;
+    width: 106px;
+}
+
+.earn__icon {
+    height: 275px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 275px;
+    z-index: 1;
+}
+
+.earn__icon {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.earn__img-responsive {
+    position: relative;
+    z-index: 2;
+}
+
+.earn__img-responsive {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+
+.earn__top-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 44px;
+    margin-bottom: 12px;
+    margin-top: 44px;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
 .coin-fall {
     position: absolute;
     width: 50px;
@@ -645,10 +696,6 @@ body {
     background-repeat: no-repeat;
     animation: fall linear;
 }
-
-
-
-
 
 @keyframes fall {
     0% {
