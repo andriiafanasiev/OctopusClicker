@@ -499,6 +499,10 @@ body {
     position: relative;
 }
 
+.menu-bar__item:hover .menu-bar__image {
+    color: white;
+}
+
 .menu-bar,
 .menu-bar__nav {
     display: flex;
@@ -635,6 +639,7 @@ body {
     background-color: #555;
 }
 
+
 .earn__top-image {
     height: 106px;
     margin: 24px auto;
@@ -678,10 +683,59 @@ body {
     text-align: center;
 }
 
+.earn__section-title {
+    color: #fff;
+    text-align: start;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-top: 32px;
+}
 
+.earn__item {
+    display: flex;
+    justify-content: space-between;
+    background-color: #333;
+    align-items: center;
+    width: 300px;
+    border: 1px solid #444;
+    padding: 20px;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
 
+.earn__item-reward {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.earn__item-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+}
+
+.earn__item-image,
+.earn__item-image img {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    min-width: 72px;
+    padding: 0 8px;
+    width: 72px;
+}
+
+.earn__item-btn button {
+    background-color: transparent;
+}
+
+.earn__item-btn button img {
+    max-width: 40px;
+    max-height: 40px;
+}
 
 
 
