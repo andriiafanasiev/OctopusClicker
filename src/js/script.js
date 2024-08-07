@@ -464,4 +464,17 @@ function startFallingCoins() {
     clearInterval(intervalId);
   }, 3000);
 }
+
+const dailyRewardBtn = document.querySelector("#dailyRewardBtn");
+const dailyRewardPopup = document.querySelector("#dailyRewardPopup");
+const popupCloseBtn = document.querySelector("#popupCloseBtn");
+
+dailyRewardBtn.addEventListener("click", () => {
+  dailyRewardPopup.style.display = "flex";
+});
+
+popupCloseBtn.addEventListener("click", () => {
+  dailyRewardPopup.style.display = "none";
+});
+
 start();
