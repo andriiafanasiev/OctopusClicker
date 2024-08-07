@@ -258,10 +258,11 @@ body {
 }
 
 .boost-menu__bosters .boost-menu__boost button,
-.boost-menu__bosters .boost-menu__boost button img {
+.boost-menu__bosters .boost-menu__boost button svg {
     background-color: transparent;
-    max-width: 40px;
-    max-height: 40px;
+    color: white;
+    max-width: 50px;
+    max-height: 50px;
 }
 
 .multitap-lvl {
@@ -318,6 +319,8 @@ body {
     transition: bottom 0.3s;
     z-index: 1000;
 }
+
+
 
 .upgrade-menu.active {
     bottom: 0;
@@ -378,7 +381,6 @@ body {
 }
 
 .upgrade-menu__content button {
-    padding: 10px 20px;
     margin-top: 20px;
     cursor: pointer;
 }
@@ -390,12 +392,15 @@ body {
 }
 
 .close-btn {
+    color: #fff;
+    font-weight: 400;
     position: absolute;
     top: 10px;
     right: 10px;
     background: none;
     border: none;
-    font-size: 24px;
+    width: 50px;
+    font-size: 50px;
     cursor: pointer;
 }
 
@@ -730,11 +735,13 @@ body {
 
 .earn__item-btn button {
     background-color: transparent;
+    color: white;
 }
 
-.earn__item-btn button img {
+.earn__item-btn button svg {
     max-width: 40px;
     max-height: 40px;
+    color: white;
 }
 
 .popup {
@@ -751,6 +758,9 @@ body {
 }
 
 .popup__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background: #333;
     padding: 20px;
     border-radius: 10px;
@@ -799,9 +809,12 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    max-width: 513.5px;
 }
 
 .popup__day {
+    font-family: Roboto Flex, sans-serif;
+    font-weight: 700;
     min-width: 90px;
     min-height: 70px;
     background: #444;
@@ -814,6 +827,14 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.popup__day.popup__day__current {
+    border: 2px solid #62cc6c;
+}
+
+.popup__day.popup__day__completed {
+    background: linear-gradient(180deg, #62cc6c, #2a7031);
 }
 
 .popup__day-number,
@@ -845,6 +866,7 @@ body {
 .popup__claim-btn:hover {
     background: #4e54e2;
 }
+
 
 
 

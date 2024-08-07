@@ -122,7 +122,7 @@
                     <div class="mine-tab__card-image"><img src="assets/img/icons/mine/startup-invest.png"
                             alt="Invest in Startup"></div>
                     <div class="mine-tab__card-content">
-                        <h3 class="mine-tab__card-title">Invest in Startup</h3>
+                        <h3 class="mine-tab__card-title">Startup Invest</h3>
                         <p class="mine-tab__card-description">Put money into promising startups for potential high
                             returns.
                         </p>
@@ -138,7 +138,7 @@
                     <div class="mine-tab__card-image"><img src="assets/img/icons/mine/bitcoin.png" alt="Buy Bitcoin">
                     </div>
                     <div class="mine-tab__card-content">
-                        <h3 class="mine-tab__card-title">Buy Bitcoin</h3>
+                        <h3 class="mine-tab__card-title">Bitcoin</h3>
                         <p class="mine-tab__card-description">Invest in Bitcoin for digital currency gains.</p>
                         <div class="mine-tab__card-details">
                             <span class="mine-tab__card-price">$2500</span>
@@ -162,7 +162,7 @@
             </div>
             <div id="cards-upgrade-menu" class="upgrade-menu">
                 <div class="upgrade-menu__content">
-                    <button class="close-btn" onclick="hideUpgradeMenu()">✖</button>
+                    <button class="close-btn" onclick="hideUpgradeMenu()">&times;</button>
                     <img id="cards-upgrade-img" src="" alt="Upgrade Image">
                     <h3 class="upgrade-menu__title" id="cards-upgrade-title"></h3>
                     <p class="upgrade-menu__description" id="cards-upgrade-description"></p>
@@ -226,7 +226,11 @@
                             </div>
                         </div>
                         <div class="earn__item-btn">
-                            <button id="dailyRewardBtn"><img src="assets/img/icons/right-arrow.png" alt=""></button>
+                            <button id="dailyRewardBtn"> <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    width="60" height="60" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="1" d="m9 5 7 7-7 7" />
+                                </svg></button>
                         </div>
                     </div>
                 </div>
@@ -238,12 +242,12 @@
                     <h3 class="popup__title">Daily reward</h3>
                     <p class="popup__description">Accrue coins for logging into the game daily without skipping.</p>
                     <div class="popup__days">
-                        <div class="popup__day">
+                        <div class="popup__day popup__day__current">
                             <span class="popup__day-number">Day 1</span>
                             <img class="popup__day-image" src="/assets/img/icons/coin.png" alt="Coin">
                             <span class="popup__day-coins">2000</span>
                         </div>
-                        <div class="popup__day">
+                        <div class="popup__day popup__day__completed">
                             <span class="popup__day-number">Day 2</span>
                             <img class="popup__day-image" src="/assets/img/icons/coin.png" alt="Coin">
                             <span class="popup__day-coins">3000</span>
@@ -331,7 +335,11 @@
                         </div>
                         <div>
                             <button>
-                                <img src="assets/img/icons/right-arrow.png" alt="">
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="60" height="60"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m9 5 7 7-7 7" />
+                                </svg>
                             </button>
 
                         </div>
@@ -346,7 +354,11 @@
                             </div>
                         </div>
                         <button>
-                            <img src="assets/img/icons/right-arrow.png" alt="">
+                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="60" height="60"
+                                fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m9 5 7 7-7 7" />
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -354,7 +366,7 @@
 
                 <div id="upgrade-menu" class="upgrade-menu">
                     <div class="upgrade-menu__content">
-                        <button class="close-btn" onclick="hideUpgradeMenu()">✖</button>
+                        <button class="close-btn" onclick="hideUpgradeMenu()">&times;</button>
                         <img id="upgrade-img" src="" alt="Upgrade Image">
                         <h3 class="upgrade-menu__title" id="upgrade-title"></h3>
                         <p class="upgrade-menu__description" id="upgrade-description"></p>
