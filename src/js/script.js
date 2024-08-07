@@ -15,6 +15,7 @@ function start() {
   setCoinsPerTap(getCoinsPerTap());
   setCoinsPerHour(getCoinsPerHour());
   restoreRecoveryState();
+  initializeDailyRewards();
 }
 
 //Coins and Score
@@ -468,44 +469,83 @@ function startFallingCoins() {
 const $dailyRewardBtn = document.querySelector("#dailyRewardBtn");
 const $dailyRewardPopup = document.querySelector("#dailyRewardPopup");
 const $popupCloseBtn = document.querySelector("#popupCloseBtn");
+const $claimDailyRewardBtn = document.querySelector("#popupClaimBtn");
+const $dailyRewardDays = document.querySelectorAll(".popup__day");
+
+const today = new Date().toISOString().slice(0, 10); // Format YYYY-MM-DD
+
+function initializeDailyRewards() {
+  const lastRewardDate = localStorage.getItem("lastRewardDate");
+  const previousDay = parseInt(localStorage.getItem("previousDay")) || 0;
+
+  if (lastRewardDate !== today) {
+    if (new Date(today) > new Date(lastRewardDate)) {
+      setPreviousDay(1);
+    } else {
+      setPreviousDay(previousDay);
+    }
+  }
+
+  const currentRewardDayNum = getPreviousDay();
+  const $currentRewardDay = $dailyRewardDays[currentRewardDayNum - 1];
+  $currentRewardDay.classList.add("popup__day__current");
+
+  console.log($dailyRewardDays);
+
+  for (let i = 0; i < currentRewardDayNum - 1; i++) {
+    $dailyRewardDays[i].classList.add("popup__day__completed");
+  }
+
+  updateClaimButtonStatus();
+}
+
+function updateClaimButtonStatus() {
+  const lastRewardDate = localStorage.getItem("lastRewardDate");
+
+  if (lastRewardDate === today) {
+    $claimDailyRewardBtn.setAttribute("disabled", "");
+  } else {
+    $claimDailyRewardBtn.removeAttribute("disabled");
+  }
+}
+
+function setLastRewardDate(date) {
+  localStorage.setItem("lastRewardDate", date);
+}
+
+function getPreviousDay() {
+  return parseInt(localStorage.getItem("previousDay")) || 1;
+}
+
+function setPreviousDay(day) {
+  localStorage.setItem("previousDay", day);
+}
+
+$claimDailyRewardBtn.addEventListener("click", () => {
+  const reward = parseInt(
+    $dailyRewardDays[getPreviousDay() - 1].querySelector(".popup__day-coins")
+      .textContent
+  );
+
+  updateClaimButtonStatus();
+  addCoins(reward);
+  startFallingCoins();
+  setLastRewardDate(today);
+
+  const nextDay = getPreviousDay() + 1;
+  if (nextDay <= $dailyRewardDays.length) {
+    setPreviousDay(nextDay);
+    initializeDailyRewards();
+  }
+});
 
 $dailyRewardBtn.addEventListener("click", () => {
   $dailyRewardPopup.style.display = "flex";
+  initializeDailyRewards();
 });
 
 $popupCloseBtn.addEventListener("click", () => {
   $dailyRewardPopup.style.display = "none";
 });
-
-const $claimDailyRewardBtn = document.querySelector("#popupClaimBtn");
-const $dailyRewardDays = document.querySelectorAll(".popup__day");
-
-const currentRewardDayNum = getPreviousDay() + 1;
-const $currentRewardDay = $dailyRewardDays[currentRewardDayNum - 1];
-$currentRewardDay.classList.add("popup__day__current");
-
-console.log($dailyRewardDays);
-
-for (let i = 0; i < getPreviousDay(); i++) {
-  $dailyRewardDays[i].classList.add("popup__day__completed");
-}
-
-function getPreviousDay() {
-  return parseInt(localStorage.getItem("previousDay")) || 5;
-}
-
-function setPreviousDay(day) {
-  return localStorage.setItem("previousDay", day);
-}
-
-$claimDailyRewardBtn.addEventListener("click", () => {
-  const reward = parseInt(
-    $currentRewardDay.querySelector(".popup__day-coins").textContent
-  );
-  console.log(reward);
-});
-
-const todayDate = new Date();
-console.log(todayDate);
 
 start();

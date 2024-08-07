@@ -823,6 +823,7 @@ body {
     text-align: center;
     margin: 5px;
     color: #fff;
+    opacity: 0.3;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -831,10 +832,12 @@ body {
 
 .popup__day.popup__day__current {
     border: 2px solid #62cc6c;
+    opacity: 1;
 }
 
 .popup__day.popup__day__completed {
     background: linear-gradient(180deg, #62cc6c, #2a7031);
+    opacity: 1;
 }
 
 .popup__day-number,
@@ -867,7 +870,15 @@ body {
     background: #4e54e2;
 }
 
+.popup__claim-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: none;
+}
 
+.popup__claim-btn:disabled:hover {
+    background: #5a60ff;
+}
 
 
 @media (max-width: 720px) {
