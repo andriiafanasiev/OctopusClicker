@@ -333,15 +333,30 @@ function getCoinsPerHour() {
   return localStorage.getItem("coinsPerHour") ?? 0;
 }
 
-if (getCoinsPerHour() > 0) {
-  let accumulatedCoins = 0;
-  setInterval(() => {
+let accumulatedCoins = 0;
+let coinsIntervalId = null;
+
+function startCoinAccumulation() {
+  if (coinsIntervalId) {
+    clearInterval(coinsIntervalId);
+  }
+
+  coinsIntervalId = setInterval(() => {
     accumulatedCoins += getCoinsPerHour() / 3600;
     if (accumulatedCoins >= 1) {
       addCoins(Math.floor(accumulatedCoins));
       accumulatedCoins -= Math.floor(accumulatedCoins);
     }
   }, 1000);
+}
+
+function updateCoinsPerHour(coins) {
+  setCoinsPerHour(Number(getCoinsPerHour()) + coins);
+  startCoinAccumulation();
+}
+
+if (getCoinsPerHour() > 0) {
+  startCoinAccumulation();
 }
 
 const $barItems = document.querySelectorAll(".menu-bar__item");
@@ -437,10 +452,6 @@ function buyCardUpgrade(card) {
 
 function parseNumber(value) {
   return Number(value.replace(/[^0-9.-]+/g, ""));
-}
-
-function updateCoinsPerHour(coins) {
-  setCoinsPerHour(Number(getCoinsPerHour()) + coins);
 }
 
 const container = document.querySelector("body");
