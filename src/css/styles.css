@@ -735,12 +735,16 @@ body {
 
 .earn__item-btn button {
     background-color: transparent;
-    color: white;
+    color: rgb(142, 140, 140);
+    transition: 0.3s ease-in-out;
 }
 
 .earn__item-btn button svg {
     max-width: 40px;
     max-height: 40px;
+}
+
+.earn__item-btn button:hover {
     color: white;
 }
 
