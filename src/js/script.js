@@ -476,7 +476,6 @@ function startFallingCoins() {
     clearInterval(intervalId);
   }, 3000);
 }
-
 const $dailyRewardBtn = document.querySelector("#dailyRewardBtn");
 const $dailyRewardPopup = document.querySelector("#dailyRewardPopup");
 const $popupCloseBtn = document.querySelector("#popupCloseBtn");
@@ -487,12 +486,11 @@ const today = new Date().toISOString().slice(0, 10); // Format YYYY-MM-DD
 
 function initializeDailyRewards() {
   const lastRewardDate = localStorage.getItem("lastRewardDate");
-  const previousDay = parseInt(localStorage.getItem("previousDay")) || 0;
+  let previousDay = parseInt(localStorage.getItem("previousDay")) || 0;
 
   if (lastRewardDate !== today) {
     if (new Date(today) > new Date(lastRewardDate)) {
-      setPreviousDay(1);
-    } else {
+      previousDay += 1;
       setPreviousDay(previousDay);
     }
   }
@@ -500,8 +498,6 @@ function initializeDailyRewards() {
   const currentRewardDayNum = getPreviousDay();
   const $currentRewardDay = $dailyRewardDays[currentRewardDayNum - 1];
   $currentRewardDay.classList.add("popup__day__current");
-
-  console.log($dailyRewardDays);
 
   for (let i = 0; i < currentRewardDayNum - 1; i++) {
     $dailyRewardDays[i].classList.add("popup__day__completed");
