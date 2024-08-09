@@ -476,6 +476,7 @@ function startFallingCoins() {
     clearInterval(intervalId);
   }, 3000);
 }
+
 const $dailyRewardBtn = document.querySelector("#dailyRewardBtn");
 const $dailyRewardPopup = document.querySelector("#dailyRewardPopup");
 const $popupCloseBtn = document.querySelector("#popupCloseBtn");
@@ -487,6 +488,11 @@ const today = new Date().toISOString().slice(0, 10); // Format YYYY-MM-DD
 function initializeDailyRewards() {
   const lastRewardDate = localStorage.getItem("lastRewardDate");
   let previousDay = parseInt(localStorage.getItem("previousDay")) || 0;
+
+  // Зняття класу `popup__day__current` з усіх днів
+  $dailyRewardDays.forEach((day) =>
+    day.classList.remove("popup__day__current")
+  );
 
   if (lastRewardDate !== today) {
     if (new Date(today) > new Date(lastRewardDate)) {
