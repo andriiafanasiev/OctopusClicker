@@ -455,7 +455,6 @@ function parseNumber(value) {
 }
 
 const container = document.querySelector("body");
-let intervalId;
 
 function createCoin() {
   const coin = document.createElement("div");
@@ -469,11 +468,18 @@ function createCoin() {
   }, 2000);
 }
 
+let intervalId = null;
+
 function startFallingCoins() {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
   intervalId = setInterval(createCoin, 200);
 
   setTimeout(() => {
     clearInterval(intervalId);
+    intervalId = null;
   }, 3000);
 }
 
@@ -489,7 +495,6 @@ function initializeDailyRewards() {
   const lastRewardDate = localStorage.getItem("lastRewardDate");
   let previousDay = parseInt(localStorage.getItem("previousDay")) || 0;
 
-  // Зняття класу `popup__day__current` з усіх днів
   $dailyRewardDays.forEach((day) =>
     day.classList.remove("popup__day__current")
   );
