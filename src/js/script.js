@@ -552,12 +552,6 @@ function setPreviousDay(day) {
   localStorage.setItem("previousDay", day);
 }
 
-function addCoins(amount) {
-  let coins = parseInt(localStorage.getItem("coins")) || 0;
-  coins += amount;
-  localStorage.setItem("coins", coins);
-}
-
 $claimDailyRewardBtn.addEventListener("click", () => {
   const currentDay = getPreviousDay();
   const reward = parseInt(
