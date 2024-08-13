@@ -88,7 +88,7 @@ setInterval(() => {
 }, 2000);
 
 $circle.addEventListener("click", (event) => {
-  if (getEnergy() > 0) {
+  if (getEnergy() >= getCoinsPerTap()) {
     const rect = $circle.getBoundingClientRect();
     const offsetX = event.clientX - rect.left - rect.width / 2;
     const offsetY = event.clientY - rect.top - rect.height / 2;
