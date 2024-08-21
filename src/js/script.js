@@ -537,11 +537,11 @@ function showCardsUpgradeMenu(card) {
   $cardsUpgradeCost.textContent = cost;
   $cardsUpgradeIncome.textContent = ` +${income} `;
 
-  $cardsUpgradeBtn.removeEventListener("click", handleUpgradeClick);
   $cardsUpgradeBtn.addEventListener("click", handleUpgradeClick);
 
   function handleUpgradeClick() {
     buyCardUpgrade(card);
+    $cardsUpgradeBtn.removeEventListener("click", handleUpgradeClick);
   }
 
   $cardsUpgradeMenu.classList.add("active");
