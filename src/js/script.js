@@ -422,9 +422,23 @@ function createCoinWidget() {
   
   const widget = document.createElement('div');
   widget.classList.add('coinWidget') ;
+  const coinsContainer = document.createElement('div');
+  coinsContainer.classList.add("coinWidget__coins-container")
+
+  const coinsImg = document.createElement("img")
+  coinsImg.src = "/assets/img/icons/coin.png"
+
+  const widgetDescription = document.createElement("p")
+  widgetDescription.classList.add("coinWidget__description")
+  widgetDescription.innerHTML = "You earned coins<br/> while you were away."
+
   const coinsText = document.createElement('p');
+  
+  coinsContainer.appendChild(coinsImg)
+  coinsContainer.appendChild(coinsText)
   coinsText.classList.add('coinWidget__coins') ;
-  widget.appendChild(coinsText);
+  widget.appendChild(coinsContainer);
+  widget.appendChild(widgetDescription)
 
   const claimButton = document.createElement('button');
   claimButton.classList.add('coinWidget__claimBtn');
@@ -444,9 +458,9 @@ function showCoinWidget(coinsEarned) {
   const widgetCoins = document.querySelector('.coinWidget__coins');
   const overlay = document.getElementById('blurOverlay');
 
-  widgetCoins.textContent = `You earned ${coinsEarned} coins during your absence.`;
+  widgetCoins.textContent = `${coinsEarned}`;
   overlay.style.display = 'block';
-  widget.style.display = 'block'; 
+  widget.style.display = 'flex'; 
 }
 
 function hideCoinWidget() {
