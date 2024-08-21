@@ -8,6 +8,7 @@ const $toLvlUp = document.querySelector("#to-lvl-up");
 const $perTap = document.querySelector("#tap");
 
 function start() {
+  calculateAccumulatedEnergy();
   setScore(getScore());
   setEnergy(getEnergy());
   setMaxEnergy(getMaxEnergy());
@@ -86,6 +87,25 @@ setInterval(() => {
     setEnergy(getEnergy() + 1);
   }
 }, 2000);
+
+function calculateAccumulatedEnergy() {
+  const lastLogoutTime = localStorage.getItem('lastLogoutTime');
+  if (lastLogoutTime) {
+    const currentTime = Date.now();
+    const timePassed = currentTime - lastLogoutTime; 
+
+    const energyRate = 1;
+    const interval = 2000; 
+    const energyGain = Math.floor(timePassed / interval) * energyRate; 
+
+    const currentEnergy = getEnergy();
+    setEnergy(currentEnergy + energyGain); 
+  }
+}
+window.addEventListener('beforeunload', () => {
+  const currentTime = Date.now();
+  localStorage.setItem('lastLogoutTime', currentTime);
+});
 
 $circle.addEventListener("click", (event) => {
   if (getEnergy() >= getCoinsPerTap()) {
@@ -225,7 +245,7 @@ window.addEventListener("click", function (event) {
   }
 });
 
-// Energie
+// Energy
 
 function getMaxEnergy() {
   const maxEnergy = localStorage.getItem("maxEnergy");
@@ -242,6 +262,11 @@ function getEnergy() {
 }
 
 function setEnergy(energy) {
+  const maxEnergy = getMaxEnergy();
+  if (energy > maxEnergy) {
+    energy = maxEnergy;
+  }
+
   localStorage.setItem("energy", energy);
   $energy.textContent = energy;
 }
