@@ -8,6 +8,16 @@ const $toLvlUp = document.querySelector("#to-lvl-up");
 const $perTap = document.querySelector("#tap");
 
 function start() {
+  createCoinWidget(); 
+
+  const offlineCoins = calculateOfflineCoins();
+  if (offlineCoins > 0) {
+    showCoinWidget(offlineCoins);
+  }
+  
+  if (getCoinsPerHour() > 0) {
+    startCoinAccumulation();
+  }
   calculateAccumulatedEnergy();
   setScore(getScore());
   setEnergy(getEnergy());
@@ -102,10 +112,8 @@ function calculateAccumulatedEnergy() {
     setEnergy(currentEnergy + energyGain); 
   }
 }
-window.addEventListener('beforeunload', () => {
-  const currentTime = Date.now();
-  localStorage.setItem('lastLogoutTime', currentTime);
-});
+
+window.addEventListener('beforeunload', saveLastLogoutTime);
 
 $circle.addEventListener("click", (event) => {
   if (getEnergy() >= getCoinsPerTap()) {
@@ -382,6 +390,70 @@ function updateCoinsPerHour(coins) {
 
 if (getCoinsPerHour() > 0) {
   startCoinAccumulation();
+}
+
+function saveLastLogoutTime() {
+  const currentTime = Date.now();
+  localStorage.setItem("lastLogoutTime", currentTime);
+}
+
+function calculateOfflineCoins() {
+  const lastLogoutTime = localStorage.getItem('lastLogoutTime');
+  if (lastLogoutTime) {
+    const currentTime = Date.now();
+    const timePassed = Math.min(currentTime - lastLogoutTime, 3 * 60 * 60 * 1000); // Max 3 hour
+    const coinsEarned = (timePassed / 1000) * (getCoinsPerHour() / 3600);
+
+    return Math.floor(coinsEarned);
+  }
+  return 0;
+}
+
+function claimOfflineCoins() {
+  const coinsEarned = calculateOfflineCoins();
+  if (coinsEarned > 0) {
+    addCoins(coinsEarned);
+    startFallingCoins(); 
+    hideCoinWidget();
+  }
+}
+
+function createCoinWidget() {
+  
+  const widget = document.createElement('div');
+  widget.classList.add('coinWidget') ;
+  const coinsText = document.createElement('p');
+  coinsText.classList.add('coinWidget__coins') ;
+  widget.appendChild(coinsText);
+
+  const claimButton = document.createElement('button');
+  claimButton.classList.add('coinWidget__claimBtn');
+  claimButton.textContent = 'Claim';
+  widget.appendChild(claimButton);
+
+  const overlay = document.createElement('div');
+  overlay.id = 'blurOverlay';
+  document.body.appendChild(overlay);
+  document.body.appendChild(widget);
+
+  claimButton.addEventListener('click', claimOfflineCoins);
+}
+
+function showCoinWidget(coinsEarned) {
+  const widget = document.querySelector('.coinWidget');
+  const widgetCoins = document.querySelector('.coinWidget__coins');
+  const overlay = document.getElementById('blurOverlay');
+
+  widgetCoins.textContent = `You earned ${coinsEarned} coins during your absence.`;
+  overlay.style.display = 'block';
+  widget.style.display = 'block'; 
+}
+
+function hideCoinWidget() {
+  const widget = document.querySelector('.coinWidget');
+  const overlay = document.getElementById('blurOverlay');
+  overlay.style.display = 'none';
+  widget.style.display = 'none'; 
 }
 
 const $barItems = document.querySelectorAll(".menu-bar__item");
