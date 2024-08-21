@@ -117,6 +117,11 @@ window.addEventListener('beforeunload', saveLastLogoutTime);
 
 $circle.addEventListener("click", (event) => {
   if (getEnergy() >= getCoinsPerTap()) {
+    // Vibration 
+    if(navigator.vibrate){
+      navigator.vibrate(200) 
+    }
+
     const rect = $circle.getBoundingClientRect();
     const offsetX = event.clientX - rect.left - rect.width / 2;
     const offsetY = event.clientY - rect.top - rect.height / 2;
