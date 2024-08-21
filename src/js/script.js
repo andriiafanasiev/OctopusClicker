@@ -203,12 +203,14 @@ function showUpgradeMenu(upgrade) {
   $upgradeDescription.textContent = `Increase your ${title.toLowerCase()}.`;
   $upgradeCost.textContent = cost;
 
-  $upgradeBtn.removeEventListener("click", handleUpgradeClick);
+
   $upgradeBtn.addEventListener("click", handleUpgradeClick);
 
   function handleUpgradeClick() {
     buyUpgrade(upgrade);
+    $upgradeBtn.removeEventListener("click", handleUpgradeClick);
   }
+
 
   $upgradeMenu.classList.add("active");
 }
