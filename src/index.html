@@ -6,10 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <title>Octopus Clicker</title>
 </head>
 
 <body>
+    <div id="player-info" class="player__info">
+        <img id="player-icon" class="player__icon" src="" alt="player icon">
+        <p id="player-name" class="player__name"></p>
+    </div>
     <div class="info">
         <div class="info__container">
             <h6 class="info__title">Earn per tap</h6>
@@ -383,7 +388,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="js/script.js"></script>
 </body>

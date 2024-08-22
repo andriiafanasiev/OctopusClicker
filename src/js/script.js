@@ -1,3 +1,45 @@
+if (window.Telegram && window.Telegram.WebApp) {
+  const playerInfo = document.querySelector(".player__info");
+
+  // Initialize the Telegram Mini App
+  const TELEGRAM = window.Telegram.WebApp;
+
+  // Notify Telegram that the web app is ready
+  TELEGRAM.ready();
+
+  // Show the block only if the app is running within Telegram
+  playerInfo.style.display = "flex";
+
+  const user = TELEGRAM.initDataUnsafe.user;
+
+  // Settings
+  TELEGRAM.setHeaderColor("#272a2f");
+  TELEGRAM.expand(); // Expand the app to 100% height on the user's phone
+
+  const playerIcon = document.getElementById('player-icon');
+  const playerName = document.getElementById('player-name');
+
+  console.log(user);
+
+  // Display user information in the element
+  if (user) {
+      playerName.textContent = `${user.first_name}`; // Display the user's first name
+      if (user.photo_url) {
+          playerIcon.src = user.photo_url; // Display the user's photo
+      } else {
+          playerIcon.src = "/assets/img/octopus/normal.png"; // Fallback image if no photo is available
+      }
+  } else {
+      console.log("No User"); // Message if no user information is available
+      playerInfo.style.display = "none"; // Hide player info if no user is present
+  }
+}
+
+
+
+
+
+
 const $score = document.querySelector(".game__score");
 const $balance = document.querySelector(".boost-menu__balance");
 const $circle = document.querySelector(".game__clicker-circle");

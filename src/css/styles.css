@@ -933,9 +933,28 @@ body {
     width: 60px;
 }
 
+#player-info {
+    display: none;
+}
 
+.player__info {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    font-size: 1.5rem;
+    background-color: #232628;
+    padding: 10px 35px;
+    border-radius: 20px;
+    color: #fff;
+}
 
-
+.player__icon {
+    width: 50px;
+}
 
 .coinWidget__claimBtn {
     padding: 20px 40px;
