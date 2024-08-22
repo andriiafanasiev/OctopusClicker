@@ -25,9 +25,10 @@ if (window.Telegram && window.Telegram.WebApp) {
   if (user) {
       playerName.textContent = `${user.first_name}`; // Display the user's first name
       if (user.photo_url) {
-          
           playerIcon.src = user.photo_url; // Display the user's photo
-      } 
+      }else{
+        playerIcon.style.display = "none";
+      }
   } else {
       console.log("No User"); // Message if no user information is available
       playerInfo.style.display = "none"; // Hide player info if no user is present
@@ -405,17 +406,73 @@ $energyBoost.addEventListener("click", () => {
 });
 const $coinsPerHour = document.querySelector("#perHour");
 
+let coinsIntervalId = null; 
+let accumulatedCoins = 0;   
+
+// Check if the app is running in Telegram
+const isTelegram = typeof Telegram !== 'undefined' 
+                   && Telegram.WebApp 
+                   && Telegram.WebApp.initDataUnsafe
+                   && typeof Telegram.WebApp.storage !== 'undefined';
+
 function setCoinsPerHour(coins) {
-  localStorage.setItem("coinsPerHour", coins);
+  if (isTelegram) {
+    const data = {
+      coinsPerHour: coins,
+      lastLogoutTime: Date.now()
+    };
+    Telegram.WebApp.storage.setItem("coinData", JSON.stringify(data));
+  } else {
+    localStorage.setItem("coinsPerHour", coins);
+  }
   $coinsPerHour.textContent = coins;
 }
 
 function getCoinsPerHour() {
-  return localStorage.getItem("coinsPerHour") ?? 0;
+  if (isTelegram && Telegram.WebApp.storage) {
+    const storedData = Telegram.WebApp.storage.getItem("coinData");
+    const data = storedData ? JSON.parse(storedData) : { coinsPerHour: 0 };
+    return data.coinsPerHour ?? 0;
+  } else {
+    return localStorage.getItem("coinsPerHour") ?? 0;
+  }
 }
 
-let accumulatedCoins = 0;
-let coinsIntervalId = null;
+function saveLastLogoutTime() {
+  if (isTelegram && Telegram.WebApp.storage) {
+    const storedData = Telegram.WebApp.storage.getItem("coinData");
+    const data = storedData ? JSON.parse(storedData) : {};
+    data.lastLogoutTime = Date.now();
+    Telegram.WebApp.storage.setItem("coinData", JSON.stringify(data));
+  } else {
+    const currentTime = Date.now();
+    localStorage.setItem("lastLogoutTime", currentTime);
+  }
+}
+
+function calculateOfflineCoins() {
+  if (isTelegram && Telegram.WebApp.storage) {
+    const storedData = Telegram.WebApp.storage.getItem("coinData");
+    if (storedData) {
+      const data = JSON.parse(storedData);
+      const lastLogoutTime = data.lastLogoutTime;
+      const currentTime = Date.now();
+      const timePassed = Math.min(currentTime - lastLogoutTime, 3 * 60 * 60 * 1000); // Max 3 hours
+      const coinsEarned = (timePassed / 1000) * (getCoinsPerHour() / 3600);
+      return Math.floor(coinsEarned);
+    }
+    return 0;
+  } else {
+    const lastLogoutTime = localStorage.getItem('lastLogoutTime');
+    if (lastLogoutTime) {
+      const currentTime = Date.now();
+      const timePassed = Math.min(currentTime - lastLogoutTime, 3 * 60 * 60 * 1000); // Max 3 hours
+      const coinsEarned = (timePassed / 1000) * (getCoinsPerHour() / 3600);
+      return Math.floor(coinsEarned);
+    }
+    return 0;
+  }
+}
 
 function startCoinAccumulation() {
   if (coinsIntervalId) {
@@ -431,62 +488,49 @@ function startCoinAccumulation() {
   }, 1000);
 }
 
-function updateCoinsPerHour(coins) {
-  setCoinsPerHour(Number(getCoinsPerHour()) + coins);
-  startCoinAccumulation();
-}
+document.addEventListener('DOMContentLoaded', () => {
+  createCoinWidget();
 
-if (getCoinsPerHour() > 0) {
-  startCoinAccumulation();
-}
-
-function saveLastLogoutTime() {
-  const currentTime = Date.now();
-  localStorage.setItem("lastLogoutTime", currentTime);
-}
-
-function calculateOfflineCoins() {
-  const lastLogoutTime = localStorage.getItem('lastLogoutTime');
-  if (lastLogoutTime) {
-    const currentTime = Date.now();
-    const timePassed = Math.min(currentTime - lastLogoutTime, 3 * 60 * 60 * 1000); // Max 3 hour
-    const coinsEarned = (timePassed / 1000) * (getCoinsPerHour() / 3600);
-
-    return Math.floor(coinsEarned);
+  if (getCoinsPerHour() > 0) {
+    startCoinAccumulation();
   }
-  return 0;
-}
+
+  const offlineCoins = calculateOfflineCoins();
+  if (offlineCoins > 0) {
+    showCoinWidget(offlineCoins);
+  }
+});
 
 function claimOfflineCoins() {
   const coinsEarned = calculateOfflineCoins();
   if (coinsEarned > 0) {
     addCoins(coinsEarned);
+    hideCoinWidget(); 
     startFallingCoins(); 
-    hideCoinWidget();
   }
 }
 
 function createCoinWidget() {
-  
   const widget = document.createElement('div');
-  widget.classList.add('coinWidget') ;
+  widget.classList.add('coinWidget');
+  
   const coinsContainer = document.createElement('div');
-  coinsContainer.classList.add("coinWidget__coins-container")
+  coinsContainer.classList.add("coinWidget__coins-container");
 
-  const coinsImg = document.createElement("img")
-  coinsImg.src = "/assets/img/icons/coin.png"
+  const coinsImg = document.createElement("img");
+  coinsImg.src = "/assets/img/icons/coin.png";
 
-  const widgetDescription = document.createElement("p")
-  widgetDescription.classList.add("coinWidget__description")
-  widgetDescription.innerHTML = "You earned coins<br/> while you were away."
+  const widgetDescription = document.createElement("p");
+  widgetDescription.classList.add("coinWidget__description");
+  widgetDescription.innerHTML = "You earned coins<br/> while you were away.";
 
   const coinsText = document.createElement('p');
-  
-  coinsContainer.appendChild(coinsImg)
-  coinsContainer.appendChild(coinsText)
-  coinsText.classList.add('coinWidget__coins') ;
+  coinsText.classList.add('coinWidget__coins');
+
+  coinsContainer.appendChild(coinsImg);
+  coinsContainer.appendChild(coinsText);
   widget.appendChild(coinsContainer);
-  widget.appendChild(widgetDescription)
+  widget.appendChild(widgetDescription);
 
   const claimButton = document.createElement('button');
   claimButton.classList.add('coinWidget__claimBtn');
@@ -508,14 +552,14 @@ function showCoinWidget(coinsEarned) {
 
   widgetCoins.textContent = `${coinsEarned}`;
   overlay.style.display = 'block';
-  widget.style.display = 'flex'; 
+  widget.style.display = 'flex';
 }
 
 function hideCoinWidget() {
   const widget = document.querySelector('.coinWidget');
   const overlay = document.getElementById('blurOverlay');
   overlay.style.display = 'none';
-  widget.style.display = 'none'; 
+  widget.style.display = 'none';
 }
 
 const $barItems = document.querySelectorAll(".menu-bar__item");
