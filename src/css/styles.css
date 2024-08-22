@@ -954,6 +954,7 @@ body {
 
 .player__icon {
     width: 50px;
+    border-radius: 20px;
 }
 
 .coinWidget__claimBtn {

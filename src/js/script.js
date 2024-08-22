@@ -25,10 +25,9 @@ if (window.Telegram && window.Telegram.WebApp) {
   if (user) {
       playerName.textContent = `${user.first_name}`; // Display the user's first name
       if (user.photo_url) {
+          
           playerIcon.src = user.photo_url; // Display the user's photo
-      } else {
-          playerIcon.src = "/assets/img/octopus/normal.png"; // Fallback image if no photo is available
-      }
+      } 
   } else {
       console.log("No User"); // Message if no user information is available
       playerInfo.style.display = "none"; // Hide player info if no user is present
