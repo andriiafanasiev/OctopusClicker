@@ -641,7 +641,6 @@ function startFallingCoins() {
     intervalId = null;
   }, 3000);
 }
-
 const $dailyRewardBtn = document.querySelector("#dailyRewardBtn");
 const $dailyRewardPopup = document.querySelector("#dailyRewardPopup");
 const $popupCloseBtn = document.querySelector("#popupCloseBtn");
@@ -654,12 +653,14 @@ function initializeDailyRewards() {
   const lastRewardDate = localStorage.getItem("lastRewardDate");
   let previousDay = parseInt(localStorage.getItem("previousDay")) || 1;
 
+  // Remove the current and completed status from all reward days
   $dailyRewardDays.forEach((day) =>
     day.classList.remove("popup__day__current", "popup__day__completed")
   );
 
-  if (lastRewardDate !== today) {
-    if (!lastRewardDate || new Date(today) > new Date(lastRewardDate)) {
+  if (!lastRewardDate || lastRewardDate !== today) {
+    if (lastRewardDate) {
+      // Calculate the number of days since the last reward
       const daysSinceLastReward = Math.floor(
         (new Date(today) - new Date(lastRewardDate)) / (1000 * 60 * 60 * 24)
       );
@@ -667,15 +668,22 @@ function initializeDailyRewards() {
         previousDay + daysSinceLastReward,
         $dailyRewardDays.length
       );
-      setPreviousDay(previousDay);
+    } else {
+      // If this is the user's first visit
+      previousDay = 1;
     }
+    
+    // Update the previous day in localStorage
+    setPreviousDay(previousDay);
   }
 
+  // Ensure previousDay does not exceed the number of available days
   if (previousDay > $dailyRewardDays.length) {
-    setPreviousDay(1);
     previousDay = 1;
+    setPreviousDay(previousDay);
   }
 
+  // Update the display of reward days in the popup
   const currentRewardDayNum = getPreviousDay();
   const $currentRewardDay = $dailyRewardDays[currentRewardDayNum - 1];
   if ($currentRewardDay) {
@@ -692,6 +700,7 @@ function initializeDailyRewards() {
 function updateClaimButtonStatus() {
   const lastRewardDate = localStorage.getItem("lastRewardDate");
 
+  // Disable the claim button if today's reward has already been claimed
   if (lastRewardDate === today) {
     $claimDailyRewardBtn.setAttribute("disabled", "true");
   } else {
@@ -711,6 +720,16 @@ function setPreviousDay(day) {
   localStorage.setItem("previousDay", day);
 }
 
+function addCoins(amount) {
+  // Implement the function to add coins to the user
+  console.log(`Added ${amount} coins`); // Example
+}
+
+function startFallingCoins() {
+  // Implement the function to start the falling coins animation
+  console.log("Start falling coins animation"); // Example
+}
+
 $claimDailyRewardBtn.addEventListener("click", () => {
   const currentDay = getPreviousDay();
   const reward = parseInt(
@@ -720,8 +739,8 @@ $claimDailyRewardBtn.addEventListener("click", () => {
 
   addCoins(reward);
   startFallingCoins();
-  setLastRewardDate(today);
 
+  setLastRewardDate(today); // Update the last reward date immediately
   $dailyRewardDays[currentDay - 1].classList.add("popup__day__completed");
 
   const nextDay = currentDay + 1;
@@ -735,8 +754,8 @@ $claimDailyRewardBtn.addEventListener("click", () => {
 });
 
 $dailyRewardBtn.addEventListener("click", () => {
-  $dailyRewardPopup.style.display = "flex";
   initializeDailyRewards();
+  $dailyRewardPopup.style.display = "flex"; // Show the popup after initializing
 });
 
 $popupCloseBtn.addEventListener("click", () => {
