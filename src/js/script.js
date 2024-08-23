@@ -48,6 +48,11 @@ const $maxEnergy = document.querySelector(".energy__max");
 const $toLvlUp = document.querySelector("#to-lvl-up");
 const $perTap = document.querySelector("#tap");
 
+console.log("Energy:", getEnergy());
+console.log("Coins per tap:", getCoinsPerTap());
+console.log("Score before:", getScore());
+
+
 function start() {
   createCoinWidget(); 
 
@@ -718,16 +723,6 @@ function getPreviousDay() {
 
 function setPreviousDay(day) {
   localStorage.setItem("previousDay", day);
-}
-
-function addCoins(amount) {
-  // Implement the function to add coins to the user
-  console.log(`Added ${amount} coins`); // Example
-}
-
-function startFallingCoins() {
-  // Implement the function to start the falling coins animation
-  console.log("Start falling coins animation"); // Example
 }
 
 $claimDailyRewardBtn.addEventListener("click", () => {
