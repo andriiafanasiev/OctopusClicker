@@ -479,7 +479,7 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-
+    animation: appear 0.7s;
 }
 
 .tab-content__active {
@@ -488,6 +488,19 @@ body {
 
 .hidden {
     display: none;
+}
+
+
+@keyframes appear {
+    to {
+        display: flex;
+        opacity: 1;
+    }
+
+    from {
+        display: none;
+        opacity: 0;
+    }
 }
 
 .menu-bar__item {
@@ -501,6 +514,7 @@ body {
     height: 56px;
     justify-content: center;
     padding: 5px;
+    transition: all 0.2s ease-in-out;
     position: relative;
 }
 
