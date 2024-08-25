@@ -70,6 +70,64 @@ function start() {
   initializeDailyRewards();
 }
 
+const investmentOptions = [
+  {
+    stockName: 'Apple stocks',
+    imagePath: 'assets/img/icons/mine/apple.png',
+    description: 'Invest in Apple stocks to increase your wealth.',
+    price: 1500,
+    hourlyProfitRate: 250,
+    totalUnitsPurchased: 0,
+  },
+  {
+    stockName: 'Startup',
+    imagePath: 'assets/img/icons/mine/startup-invest.png',
+    description:
+      'Put money into promising startups for potential high returns.',
+    price: 2000,
+    hourlyProfitRate: 500,
+    totalUnitsPurchased: 0,
+  },
+  {
+    stockName: 'BTC',
+    imagePath: 'assets/img/icons/mine/bitcoin.png',
+    description: 'Invest in Bitcoin for digital currency gains.',
+    price: 2500,
+    hourlyProfitRate: 300,
+    totalUnitsPurchased: 0,
+  },
+  {
+    stockName: 'Gold',
+    imagePath: 'assets/img/icons/mine/gold.png',
+    description: 'Invest in gold as a safe-haven asset.',
+    price: 3000,
+    hourlyProfitRate: 400,
+    totalUnitsPurchased: 0,
+  },
+];
+
+let str = '';
+investmentOptions.forEach((item) => {
+  str += `<div class="mine-tab__card">
+                      <div class="mine-tab__card-image">
+                          <img src="${item.imagePath}">
+                      </div>
+                      <div class="mine-tab__card-content">
+                      <h3 class="mine-tab__card-title">${item.stockName}</h3>
+                          <p class="mine-tab__card-description">${item.description}</p>
+                          <div class="mine-tab__card-details">
+                              <span class="mine-tab__card-price">$${item.price}</span>
+                              <span class="mine-tab__card-income">Income: $<span
+                                    class="card-income">${item.hourlyProfitRate}</span>/hour</span>
+                          </div>
+                          <button class="mine-tab__card-button">Invest</button>
+                      </div>
+                  </div>`;
+});
+
+let $cardContainer = document.querySelector('.mine-tab__grid');
+$cardContainer.innerHTML = str;
+
 //Coins and Score
 
 function addCoins(coins) {
