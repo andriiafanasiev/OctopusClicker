@@ -44,10 +44,6 @@ const $maxEnergy = document.querySelector('.energy__max');
 const $toLvlUp = document.querySelector('#to-lvl-up');
 const $perTap = document.querySelector('#tap');
 
-console.log('Energy:', getEnergy());
-console.log('Coins per tap:', getCoinsPerTap());
-console.log('Score before:', getScore());
-
 function start() {
   createCoinWidget();
 
@@ -68,65 +64,9 @@ function start() {
   setCoinsPerHour(getCoinsPerHour());
   restoreRecoveryState();
   initializeDailyRewards();
+  loadStocks();
+  renderStockCards();
 }
-
-const investmentOptions = [
-  {
-    stockName: 'Apple stocks',
-    imagePath: 'assets/img/icons/mine/apple.png',
-    description: 'Invest in Apple stocks to increase your wealth.',
-    price: 1500,
-    hourlyProfitRate: 250,
-    totalUnitsPurchased: 0,
-  },
-  {
-    stockName: 'Startup',
-    imagePath: 'assets/img/icons/mine/startup-invest.png',
-    description:
-      'Put money into promising startups for potential high returns.',
-    price: 2000,
-    hourlyProfitRate: 500,
-    totalUnitsPurchased: 0,
-  },
-  {
-    stockName: 'BTC',
-    imagePath: 'assets/img/icons/mine/bitcoin.png',
-    description: 'Invest in Bitcoin for digital currency gains.',
-    price: 2500,
-    hourlyProfitRate: 300,
-    totalUnitsPurchased: 0,
-  },
-  {
-    stockName: 'Gold',
-    imagePath: 'assets/img/icons/mine/gold.png',
-    description: 'Invest in gold as a safe-haven asset.',
-    price: 3000,
-    hourlyProfitRate: 400,
-    totalUnitsPurchased: 0,
-  },
-];
-
-let str = '';
-investmentOptions.forEach((item) => {
-  str += `<div class="mine-tab__card">
-                      <div class="mine-tab__card-image">
-                          <img src="${item.imagePath}">
-                      </div>
-                      <div class="mine-tab__card-content">
-                      <h3 class="mine-tab__card-title">${item.stockName}</h3>
-                          <p class="mine-tab__card-description">${item.description}</p>
-                          <div class="mine-tab__card-details">
-                              <span class="mine-tab__card-price">$${item.price}</span>
-                              <span class="mine-tab__card-income">Income: $<span
-                                    class="card-income">${item.hourlyProfitRate}</span>/hour</span>
-                          </div>
-                          <button class="mine-tab__card-button">Invest</button>
-                      </div>
-                  </div>`;
-});
-
-let $cardContainer = document.querySelector('.mine-tab__grid');
-$cardContainer.innerHTML = str;
 
 //Coins and Score
 
@@ -344,18 +284,13 @@ function buyUpgrade(upgrade) {
       upgradeMaxEnergy();
     }
     hideUpgradeMenu();
+
     startFallingCoins();
     alert('Upgrade purchased!');
   } else {
     alert('Not enough coins!');
   }
 }
-
-window.addEventListener('click', function (event) {
-  if (event.target === $upgradeMenu || event.target === $cardsUpgradeMenu) {
-    hideUpgradeMenu();
-  }
-});
 
 // Energy
 
@@ -610,62 +545,237 @@ $barItems.forEach((barItem) => {
     }
   });
 });
-const $mineTabItems = document.querySelectorAll('.mine-tab__card');
 
-$mineTabItems.forEach(($mineTabItem) => {
-  $mineTabItem.addEventListener('click', (e) => {
-    showCardsUpgradeMenu(e.currentTarget);
+let stocks = [
+  {
+    stockName: 'Apple',
+    imagePath: 'assets/img/icons/mine/apple.png',
+    description: 'Invest in Apple stocks to increase your wealth.',
+    price: 1500,
+    hourlyProfitRate: 250,
+    totalUnitsPurchased: 0,
+    priceIncrease: 1.15,
+    pphIncrease: 1.1,
+    disabled: false,
+    unlockCondition: null,
+  },
+  {
+    stockName: 'Tesla',
+    imagePath: 'assets/img/icons/mine/tesla.png',
+    description: 'Invest in Tesla stocks for innovative returns.',
+    price: 2000,
+    hourlyProfitRate: 500,
+    totalUnitsPurchased: 0,
+    priceIncrease: 1.15,
+    pphIncrease: 1.1,
+    disabled: false,
+    unlockCondition: null,
+  },
+  {
+    stockName: 'BTC',
+    imagePath: 'assets/img/icons/mine/bitcoin.png',
+    description: 'Invest in Bitcoin for digital currency gains.',
+    price: 2500,
+    hourlyProfitRate: 300,
+    priceIncrease: 1.15,
+    pphIncrease: 1.1,
+    totalUnitsPurchased: 0,
+    disabled: true,
+    unlockCondition: { stockName: 'Apple', level: 5 },
+  },
+  {
+    stockName: 'ETH',
+    imagePath: 'assets/img/icons/mine/ethereum.png',
+    description: 'Invest in Ethereum for decentralized finance opportunities.',
+    price: 3000,
+    hourlyProfitRate: 400,
+    totalUnitsPurchased: 0,
+    priceIncrease: 1.15,
+    pphIncrease: 1.1,
+    disabled: true,
+    unlockCondition: { stockName: 'BTC', level: 5 },
+  },
+  {
+    stockName: 'Microsoft',
+    imagePath: 'assets/img/icons/mine/microsoft.png',
+    description:
+      'Invest in Microsoft for stable returns from a software giant.',
+    price: 4000,
+    hourlyProfitRate: 600,
+    totalUnitsPurchased: 0,
+    priceIncrease: 1.2,
+    pphIncrease: 1.15,
+    disabled: true,
+    unlockCondition: { stockName: 'ETH', level: 5 },
+  },
+  {
+    stockName: 'Ripple',
+    imagePath: 'assets/img/icons/mine/ripple.png',
+    description: 'Invest in Ripple for fast and secure transactions.',
+    price: 5000,
+    hourlyProfitRate: 800,
+    totalUnitsPurchased: 0,
+    priceIncrease: 1.25,
+    pphIncrease: 1.2,
+    disabled: true,
+    unlockCondition: { stockName: 'Microsoft', level: 5 },
+  },
+];
+
+function renderStockCards() {
+  checkUnlockConditions(); // Перевірте умови розблокування
+
+  const $cardContainer = document.querySelector('.mine-tab__grid');
+  let str = '';
+  stocks.forEach((stock, index) => {
+    const isDisabled = stock.disabled === true;
+    const disabledClass = isDisabled ? 'disabled' : '';
+    const disabledAttr = isDisabled ? 'aria-disabled="true"' : '';
+
+    const unlockText =
+      isDisabled && stock.unlockCondition
+        ? `Unlock after ${stock.unlockCondition.stockName} reaches level ${stock.unlockCondition.level}`
+        : '';
+
+    str += `<div class="mine-tab__card ${disabledClass}" data-index="${index}" ${disabledAttr}>
+              <div class="mine-tab__card-image">
+                  <h3 class="mine-tab__card-title">${stock.stockName}</h3>
+                  <img src="${stock.imagePath}">
+              </div>
+              <div class="mine-tab__card-content">
+                  <p class="mine-tab__card-description">${stock.description}</p>
+                  <div class="mine-tab__card-details">
+                      <span class="mine-tab__card-price">Fee: ${stock.price}</span>
+                      <span class="card-income">Profit: ${stock.hourlyProfitRate}</span>
+                      <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${stock.totalUnitsPurchased}</span></p>
+                  </div>
+              </div>
+              <div class="mine-tab__card-unlock">
+                <img src="/assets/img/icons/mine/lock.svg">
+                <p>${unlockText}</p>
+              </div>
+          </div>`;
   });
-});
 
-const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
-const $cardsUpgradeImg = document.querySelector('#cards-upgrade-img');
-const $cardsUpgradeTitle = document.querySelector('#cards-upgrade-title');
-const $cardsUpgradeDescription = document.querySelector(
-  '#cards-upgrade-description'
-);
-const $cardsUpgradeBtn = document.querySelector('#cards-upgrade-button');
-const $cardsUpgradeCost = document.querySelector('#cards-upgrade-cost');
-const $cardsUpgradeIncome = document.querySelector('#cards-upgrade-income');
+  $cardContainer.innerHTML = str;
+
+  // Додайте слухачів подій до кожної картки для відкриття меню оновлення
+  document.querySelectorAll('.mine-tab__card').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      showCardsUpgradeMenu(card);
+    });
+  });
+}
+
+function checkUnlockConditions() {
+  stocks.forEach((stock) => {
+    if (stock.unlockCondition) {
+      const requiredStock = stocks.find(
+        (s) => s.stockName === stock.unlockCondition.stockName
+      );
+      if (requiredStock.totalUnitsPurchased >= stock.unlockCondition.level) {
+        stock.disabled = false;
+      }
+    }
+  });
+  saveStocks(); // Збережіть дані після перевірки умов
+}
+
+function loadStocks() {
+  const savedStocks = localStorage.getItem('stocks');
+  if (savedStocks) {
+    stocks = JSON.parse(savedStocks);
+  }
+}
+
+function saveStocks() {
+  localStorage.setItem('stocks', JSON.stringify(stocks));
+}
 
 function showCardsUpgradeMenu(card) {
-  const imgSrc = card.querySelector('img').src;
-  const title = card.querySelector('h3').textContent;
-  const cost = card.querySelector('span').textContent.trim();
-  const description = card.querySelector('p').textContent;
-  const income = card.querySelector('.card-income').textContent.trim();
+  const index = card.dataset.index;
+  const stock = stocks[index];
 
-  $cardsUpgradeImg.src = imgSrc;
-  $cardsUpgradeTitle.textContent = title;
-  $cardsUpgradeDescription.textContent = description;
-  $cardsUpgradeCost.textContent = cost;
-  $cardsUpgradeIncome.textContent = ` +${income} `;
+  const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
+  const $cardsUpgradeImg = document.querySelector('#cards-upgrade-img');
+  const $cardsUpgradeTitle = document.querySelector('#cards-upgrade-title');
+  const $cardsUpgradeDescription = document.querySelector(
+    '#cards-upgrade-description'
+  );
+  const $cardsUpgradeBtn = document.querySelector('#cards-upgrade-button');
+  const $cardsUpgradeCost = document.querySelector('#cards-upgrade-cost');
+  const $cardsUpgradeIncome = document.querySelector('#cards-upgrade-income');
 
-  $cardsUpgradeBtn.addEventListener('click', handleUpgradeClick);
+  $cardsUpgradeImg.src = card.querySelector('img').src;
+  $cardsUpgradeTitle.textContent = stock.stockName;
+  $cardsUpgradeDescription.textContent = stock.description;
+  $cardsUpgradeCost.textContent = `${stock.price}$`;
+  $cardsUpgradeIncome.textContent = `${stock.hourlyProfitRate}`;
 
-  function handleUpgradeClick() {
-    buyCardUpgrade(card);
-    $cardsUpgradeBtn.removeEventListener('click', handleUpgradeClick);
-  }
+  $cardsUpgradeBtn.onclick = function () {
+    buyStock(index, card);
+  };
 
   $cardsUpgradeMenu.classList.add('active');
 }
 
-function buyCardUpgrade(card) {
+function buyStock(index, cardElement) {
+  const stock = stocks[index];
   const currentBalance = getScore();
-  const cost = parseNumber($cardsUpgradeCost.textContent);
-  const income = parseNumber($cardsUpgradeIncome.textContent);
+  const cost = stock.price;
 
   if (currentBalance >= cost) {
     setScore(currentBalance - cost);
-    updateCoinsPerHour(income);
+
+    const currentCoinsPerHour = Number(getCoinsPerHour());
+    const additionalCoinsPerHour = Number(stock.hourlyProfitRate);
+
+    setCoinsPerHour(currentCoinsPerHour + additionalCoinsPerHour);
+
+    stock.totalUnitsPurchased += 1;
+
+    // Збільшуємо ціну акцій і дохід
+    stock.price = Math.ceil(stock.price * stock.priceIncrease);
+    stock.hourlyProfitRate = Math.ceil(
+      stock.hourlyProfitRate * stock.pphIncrease
+    );
+
+    updateStockCardUI(cardElement, stock);
+    saveStocks(); // Збережіть зміни
+
+    updateLevel();
     hideUpgradeMenu();
-    startFallingCoins();
-    alert('Upgrade purchased!');
+    alert('Success! Upgrade purchased!');
+    checkUnlockConditions(); // Перевірка умов розблокування
+    loadStocks();
+    renderStockCards();
   } else {
-    alert('Not enough coins!');
+    hideUpgradeMenu();
+    alert('Error! Not enough coins!');
   }
 }
+
+function updateStockCardUI(cardElement, stock) {
+  cardElement.querySelector(
+    '.mine-tab__card-price'
+  ).textContent = `Cost: ${stock.price}`;
+  cardElement.querySelector(
+    '.card-income'
+  ).textContent = `Profit: ${stock.hourlyProfitRate}`;
+  cardElement.querySelector('.PerHour-level').textContent =
+    stock.totalUnitsPurchased;
+}
+
+function hideUpgradeMenu() {
+  const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
+  $cardsUpgradeMenu.classList.remove('active');
+}
+
+// Ініціалізуйте рендеринг карток при завантаженні сторінки
+document.addEventListener('DOMContentLoaded', () => {
+  loadStocks();
+  renderStockCards();
+});
 
 function parseNumber(value) {
   return Number(value.replace(/[^0-9.-]+/g, ''));
