@@ -4,6 +4,11 @@ Now available on Telegram! [Check it out!](https://t.me/Octopus_clicker_bot)
 
 Prefer the web? Try out the [web version](https://octopusclicker-6be31.web.app)
 
+<p align="center">
+  <img width="758" alt="screenshoot" src="https://github.com/user-attachments/assets/d839ed23-591a-46b5-9e1d-abb4a9518768" />
+</p>
+
+
 ## About the Game
 Octopus Clicker is an engaging clicker game where you tap your way to victory! Available on Telegram and the web, it offers a fun and simple way to pass the time.
 
