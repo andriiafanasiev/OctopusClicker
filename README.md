@@ -1,5 +1,36 @@
+# Octopus Clicker: Now on Telegram!
 
-<h1>Octopus Clicker: Now on Telegram!</h1>
-<div style="">Now available on Telegram <a href="https://t.me/Octopus_clicker_bot"> Check it out!  <img style="width: 17px; vertical-align: middle;" src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram Logo"></a></div>
-<div>Prefer the web? Try out the <a href="https://octopusclicker-6be31.web.app">web version</a> </div>
+Now available on Telegram! [Check it out!](https://t.me/Octopus_clicker_bot)
+
+Prefer the web? Try out the [web version](https://octopusclicker-6be31.web.app)
+
+## About the Game
+Octopus Clicker is an engaging clicker game where you tap your way to victory! Available on Telegram and the web, it offers a fun and simple way to pass the time.
+
+## Features
+- **Telegram Bot Integration**: Play directly in Telegram without downloading anything.
+- **Web Version**: Enjoy the game on your browser from anywhere.
+- **Simple & Fun Gameplay**: Click, upgrade, and progress!
+
+## How to Play
+### Telegram Bot
+1. Open [Octopus Clicker Bot](https://t.me/Octopus_clicker_bot) on Telegram.
+2. Start clicking to earn points.
+3. Upgrade your octopus for higher scores!
+
+### Web Version
+1. Visit the [web version](https://octopusclicker-6be31.web.app).
+2. Click to earn points and grow your octopus empire.
+
+## Installation & Development
+If you want to contribute or modify the project, follow these steps:
+
+### Prerequisites
+- Node.js and npm installed
+- Firebase account (if deploying the web version)
+
+
+## Contributing
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
 
